@@ -1,0 +1,11 @@
+﻿@page
+@model MitraKaryaSystem.Views.Auth.LoginModel
+@{
+
+}
+
+<form method="post" asp-action="Login" asp-controller="Auth">
+	<input type="text" name="username" placeholder="Username" />
+	<input type="password" name="password" placeholder="Password" />
+	<input type="submit" value="Login" />
+</form>
