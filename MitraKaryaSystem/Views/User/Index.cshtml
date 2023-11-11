@@ -1,0 +1,17 @@
+﻿@{
+	ViewData["Title"] = "User Setting";
+}
+
+
+<div class="row">
+	<partial name="_TableUser" />
+</div>
+<div class="row">
+	<partial name="_TableRequest" />
+</div>
+<partial name="_userModal" />
+
+@section Scripts{
+	<script src="~/js/User.js" asp-append-version="true"></script>
+	<script src="~/js/Common.js" asp-append-version="true"></script>
+}

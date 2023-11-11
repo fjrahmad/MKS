@@ -34,6 +34,8 @@ builder.Services.AddAuthentication("AuthScheme").AddCookie("AuthScheme", options
 // Register the AuthService that implements the IAuthService interface
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<SPContextProcedures>();
 builder.Services.AddDbContext<MKSContext>(options =>
