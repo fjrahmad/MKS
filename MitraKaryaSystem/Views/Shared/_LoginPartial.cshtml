@@ -2,17 +2,7 @@
 @using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 <ul class="navbar-nav ml-auto">
-	@if (User.Identity?.IsAuthenticated == true)
-	{
-
-		<a asp-controller="Auth" asp-action="Logout" class="dropdown-item has-icon text-danger">
-			<i class="fas fa-sign-out-alt"></i> Logout
-		</a>
-	}
-	else
-	{
-		<li class="nav-item">
-			<a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Auth" asp-action="LoginView">Sign in</a>
-		</li>
-	}
+	<a asp-controller="Auth" asp-action="Logout" class="dropdown-item has-icon text-danger">
+		<i class="fas fa-sign-out-alt"></i> Logout
+	</a>
 </ul>

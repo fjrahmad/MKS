@@ -1,7 +1,7 @@
-﻿using API.Models;
-using API.Services.Interfaces;
+﻿using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using MitraKaryaSystem.Models;
 using System.Security.Claims;
 
 namespace MitraKaryaSystem.Controllers
@@ -25,11 +25,11 @@ namespace MitraKaryaSystem.Controllers
 			return RedirectToAction("Login", "Auth");
 		}
 		[HttpPost]
-		public async Task<IActionResult> Login(User user)
+		public async Task<IActionResult> Login(LoginModel user)
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _authService.Login(user.Email, user.Password))
+				if (await _authService.Login(user.UserName, user.Password))
 				{
 					var currentUser = await _authService.GetCurrentUser();
 					var claims = new[]
@@ -58,7 +58,13 @@ namespace MitraKaryaSystem.Controllers
 					return RedirectToAction("Index", "Home");
 
 				}
+				else
+				{
+					ModelState.AddModelError(string.Empty, "Invalid credentials, please try again.");
+					return View();
+				}
 			}
+
 
 
 			return View();
