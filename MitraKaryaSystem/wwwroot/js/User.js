@@ -19,15 +19,13 @@ let Table = {
                 data: null,
                 render: function (data, type, row) {
                     return `
-                     <div class="btn-group">
                     <a class="btn btn-warning edit" href="#" data-id="${row.id}">
-                        <i class="fa fa-pencil"></i> Edit
+                        <i class="fa fa-pencil"></i> 
                     </a>
                     <span style="margin: 0 5px;"></span>
                     <a class="btn btn-danger delete" href="#" data-id="${row.id}">
-                        <i class="fa fa-trash"></i> Delete
+                        <i class="fa fa-trash"></i> 
                     </a>
-                </div>
             `;
                 },
                 "orderable": false
@@ -52,7 +50,6 @@ let Table = {
         tableID.find('tbody').on('click', '.edit', function (e) {
 
             let row = tb.row($(this).parents('tr')).data();
-            console.log(row);
             Forms.FillForm(row.id);
             $('#userModal').modal('show');
         });
