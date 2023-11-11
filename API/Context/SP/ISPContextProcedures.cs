@@ -15,6 +15,6 @@ namespace API.Context.SP
         Task<List<uspUserAddResult>> uspUserAddAsync(string FullName, string PhoneNumber, string UserName, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspUserGetResult>> uspUserGetAsync(int? ID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspUserLoginResult>> uspUserLoginAsync(string Username, string Password, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<int> uspUserUpdateAsync(int? ID, string FullName, string PhoneNumber, string UserName, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<int> uspUserUpdateAsync(int? ID, string FullName, string PhoneNumber, string UserName, string Email, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
     }
 }

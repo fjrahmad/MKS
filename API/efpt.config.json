@@ -1,13 +1,13 @@
 ﻿{
    "CodeGenerationMode": 3,
-   "ContextClassName": "MKSContext",
+   "ContextClassName": "SPContext",
    "ContextNamespace": "",
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
    "ModelNamespace": null,
-   "OutputContextPath": "Context\/Table",
-   "OutputPath": "Models",
+   "OutputContextPath": "Context\/SP",
+   "OutputPath": "SP",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "API",
    "Schemas": null,
@@ -16,24 +16,20 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[Role]",
-         "ObjectType": 0
+         "Name": "[dbo].[uspUserAdd]",
+         "ObjectType": 1
       },
       {
-         "Name": "[dbo].[RoleClaims]",
-         "ObjectType": 0
+         "Name": "[dbo].[uspUserGet]",
+         "ObjectType": 1
       },
       {
-         "Name": "[dbo].[User]",
-         "ObjectType": 0
+         "Name": "[dbo].[uspUserLogin]",
+         "ObjectType": 1
       },
       {
-         "Name": "[dbo].[UserClaims]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[UserRole]",
-         "ObjectType": 0
+         "Name": "[dbo].[uspUserUpdate]",
+         "ObjectType": 1
       }
    ],
    "UiHint": "alveen.MKS.dbo",

@@ -177,7 +177,7 @@ namespace API.Context.SP
             return _;
         }
 
-        public virtual async Task<int> uspUserUpdateAsync(int? ID, string FullName, string PhoneNumber, string UserName, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<int> uspUserUpdateAsync(int? ID, string FullName, string PhoneNumber, string UserName, string Email, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -224,13 +224,6 @@ namespace API.Context.SP
                 },
                 new SqlParameter
                 {
-                    ParameterName = "Password",
-                    Size = 20,
-                    Value = Password ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
-                },
-                new SqlParameter
-                {
                     ParameterName = "Active",
                     Value = Active ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Bit,
@@ -244,7 +237,7 @@ namespace API.Context.SP
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[uspUserUpdate] @ID, @FullName, @PhoneNumber, @UserName, @Email, @Password, @Active, @KTP", sqlParameters, cancellationToken);
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[uspUserUpdate] @ID, @FullName, @PhoneNumber, @UserName, @Email, @Active, @KTP", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

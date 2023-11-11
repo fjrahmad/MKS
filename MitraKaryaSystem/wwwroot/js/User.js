@@ -15,7 +15,7 @@ let Table = {
             { data: 'email' },
             { data: 'ktp' },
             { data: 'active' },
-            { data: null, render: function () { return '<button class="btn btn-primary form-control edit">Edit</button>' }, "orderable": false },
+            { data: null, render: function () { return '<a class="btn btn-warning edit" title="Edit"><i class="fa fa-pencil"></i> Edit</a>' }, "orderable": false },
         ];
         $(tableID).DataTable({
             "deferRender": true,

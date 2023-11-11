@@ -39,7 +39,7 @@ namespace API.Repository
 			}
 			else
 			{
-				await _sp.uspUserUpdateAsync(user.ID, user.FullName, user.PhoneNumber, user.UserName, user.Email, user.Password, user.IsActive, user.KTP);
+				await _sp.uspUserUpdateAsync(user.ID, user.FullName, user.PhoneNumber, user.UserName, user.Email, user.IsActive, user.KTP);
 
 			}
 			await _context.SaveChangesAsync();
@@ -48,7 +48,7 @@ namespace API.Repository
 		{
 			List<uspUserGetResult> users = await _sp.uspUserGetAsync(id);
 			UserModel userModel = null;
-			if (users == null)
+			if (users.Count == 0)
 			{
 				userModel = new UserModel();
 			}
@@ -57,9 +57,9 @@ namespace API.Repository
 				var user = users.FirstOrDefault();
 				userModel = new UserModel
 				{
+					ID = user.ID,
 					UserName = user.UserName,
 					Email = user.Email,
-					Password = user.Password,
 					FullName = user.FullName,
 					KTP = user.KTP,
 					IsActive = user.Active,
