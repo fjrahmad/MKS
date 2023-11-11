@@ -11,7 +11,7 @@ namespace API.Repository
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly MKSContext _db;
 		private readonly SPContextProcedures _sp;
-		public static UserModel CurrentUser { get; set; }
+		public static CurrentUser CurrentUser { get; set; }
 		public AuthRepository(MKSContext db, IHttpContextAccessor contextAccessor, SPContextProcedures sp)
 		{
 			_httpContextAccessor = contextAccessor;
@@ -24,7 +24,7 @@ namespace API.Repository
 			uspUserLoginResult? uspUserLogin = users.FirstOrDefault();
 			var isLogin = users.Count > 0;
 			if (isLogin)
-				CurrentUser = new UserModel
+				CurrentUser = new CurrentUser
 				{
 					UserName = uspUserLogin?.UserName,
 					FullName = uspUserLogin?.FullName,
@@ -35,7 +35,7 @@ namespace API.Repository
 			return isLogin;
 		}
 
-		public async Task<UserModel> GetCurrentUser()
+		public async Task<CurrentUser> GetCurrentUser()
 		{
 			return await Task.FromResult(CurrentUser);
 		}

@@ -35,6 +35,7 @@ namespace API.Context.SP
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<uspUserAddResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<uspUserGetResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspUserLoginResult>().HasNoKey().ToView(null);
         }
     }
@@ -116,6 +117,32 @@ namespace API.Context.SP
             return _;
         }
 
+        public virtual async Task<List<uspUserGetResult>> uspUserGetAsync(int? ID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "ID",
+                    Value = ID ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<uspUserGetResult>("EXEC @returnValue = [dbo].[uspUserGet] @ID", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
         public virtual async Task<List<uspUserLoginResult>> uspUserLoginAsync(string Username, string Password, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
@@ -144,6 +171,80 @@ namespace API.Context.SP
                 parameterreturnValue,
             };
             var _ = await _context.SqlQueryAsync<uspUserLoginResult>("EXEC @returnValue = [dbo].[uspUserLogin] @Username, @Password", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<int> uspUserUpdateAsync(int? ID, string FullName, string PhoneNumber, string UserName, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "ID",
+                    Value = ID ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "FullName",
+                    Size = 50,
+                    Value = FullName ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "PhoneNumber",
+                    Size = 20,
+                    Value = PhoneNumber ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "UserName",
+                    Size = 20,
+                    Value = UserName ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Email",
+                    Size = 50,
+                    Value = Email ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Password",
+                    Size = 20,
+                    Value = Password ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Active",
+                    Value = Active ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Bit,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "KTP",
+                    Size = 20,
+                    Value = KTP ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[uspUserUpdate] @ID, @FullName, @PhoneNumber, @UserName, @Email, @Password, @Active, @KTP", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

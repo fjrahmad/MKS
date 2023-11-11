@@ -7,7 +7,7 @@ namespace API.Models;
 
 public partial class User
 {
-    public int Id { get; set; }
+    public int ID { get; set; }
 
     public string FullName { get; set; }
 

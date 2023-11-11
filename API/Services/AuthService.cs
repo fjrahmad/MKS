@@ -16,7 +16,7 @@ namespace API.Services
 			return await _authRepository.Login(username, password);
 		}
 
-		public async Task<UserModel> GetCurrentUser()
+		public async Task<CurrentUser> GetCurrentUser()
 		{
 			return await _authRepository.GetCurrentUser();
 		}

@@ -7,7 +7,6 @@ $(document).ready(function () {
 let Table = {
     FillGrid: function () {
         let data = Common.GetData.Get('GetUserList');
-        console.log(data);
         let tableID = $("#tableUser");
         // Define an array to store the checked checkbox values
         let columns = [
@@ -16,9 +15,7 @@ let Table = {
             { data: 'email' },
             { data: 'ktp' },
             { data: 'active' },
-            { data: null, visible: false },
-            { data: null, visible: false },
-            { data: null, visible: false },
+            { data: null, render: function () { return '<button class="btn btn-primary form-control edit">Edit</button>' }, "orderable": false },
         ];
         $(tableID).DataTable({
             "deferRender": true,
@@ -32,10 +29,17 @@ let Table = {
             "columns": columns,
             "buttons": [],
             "dom": 'lBfrtip',
-            "columnDefs": [{ "targets": [0, 1, 2, 3, 4, 5, 6], "className": "text-left" }],
+            "columnDefs": [{ "targets": [0, 1, 2, 3, 4], "className": "text-left" }],
         });
         let tb = tableID.DataTable();
         tableID.find('tbody').unbind();
+        tableID.find('tbody').on('click', '.edit', function (e) {
+
+            let row = tb.row($(this).parents('tr')).data();
+            console.log(row);
+            Forms.FillForm(row.id);
+            $('#userModal').modal('show');
+        });
     },
     FillGridRequested: function () {
         let tableID = $('#tableRequest');
@@ -179,8 +183,91 @@ let Table = {
 let Buttons = {
     Init: function () {
         $('#buttonAddUser').click(function () {
-            userID = 0;
+            Forms.FillForm(0);
+        });
+        $('#buttonSave').click(function () {
+            Forms.Save();
         });
 
     }
 }
+
+let Forms = {
+    Save: function () {
+        // Serialize the form data
+        var formData = $('#userForm').serialize();
+
+        // Show loading indicator
+        Swal.fire({
+            title: 'Please wait',
+            text: 'Saving user..',
+            showConfirmButton: false,
+            allowOutsideClick: false,
+        });
+        Swal.showLoading();
+
+        // Submit the form using AJAX
+        $.ajax({
+            url: 'SaveUser',
+            type: 'POST',
+            data: formData,
+            success: function (result) {
+                if (result.success) {
+                    // Close loading indicator
+                    Swal.close();
+                    Swal.hideLoading()
+                    // Close the modal
+                    $('#userModal').modal('hide');
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: "Save Success",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        allowOutsideClick: false
+                    }).then(() => {
+                        Table.FillGrid();
+                    });
+                } else {
+                    console.error('Saving failed:', result);
+                    // Update the modal body with the returned HTML (validation errors)
+                    $('#bodyModal').html(result);
+                    // Close loading indicator
+                    Swal.close();
+                }
+            },
+            error: function (error) {
+                // Show error message
+                console.error('Saving failed:', error);
+
+                // Close loading indicator
+                Swal.close();
+
+                // You can handle errors as needed
+            }
+        });
+    },
+
+    FillForm: function (id) {
+        $.ajax({
+            url: 'FillForm',
+            type: 'POST',
+            data: { id: id },
+            success: function (result) {
+
+                $('#bodyModal').html(result);
+
+
+                // Update the modal body with the retrieved partial view
+
+                // Open the modal
+                $('#userModal').modal('show');
+            },
+            error: function (error) {
+                // Handle errors if needed
+                console.error('Error loading user data:', error);
+            }
+        });
+    }
+
+};

@@ -42,7 +42,7 @@ public partial class MKSContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC076267E296");
+            entity.HasKey(e => e.ID).HasName("PK__User__3214EC076267E296");
 
             entity.ToTable("User");
 
