@@ -15,7 +15,23 @@ let Table = {
             { data: 'email' },
             { data: 'ktp' },
             { data: 'active' },
-            { data: null, render: function () { return '<a class="btn btn-warning edit" title="Edit"><i class="fa fa-pencil"></i> Edit</a>' }, "orderable": false },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    return `
+                     <div class="btn-group">
+                    <a class="btn btn-warning edit" href="#" data-id="${row.id}">
+                        <i class="fa fa-pencil"></i> Edit
+                    </a>
+                    <span style="margin: 0 5px;"></span>
+                    <a class="btn btn-danger delete" href="#" data-id="${row.id}">
+                        <i class="fa fa-trash"></i> Delete
+                    </a>
+                </div>
+            `;
+                },
+                "orderable": false
+            },
         ];
         $(tableID).DataTable({
             "deferRender": true,
@@ -39,6 +55,46 @@ let Table = {
             console.log(row);
             Forms.FillForm(row.id);
             $('#userModal').modal('show');
+        });
+        tableID.find('tbody').on('click', '.delete', function (e) {
+            let row = tb.row($(this).parents('tr')).data();
+            // Show a confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it',
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    return fetch(`DeleteUser?id=${row.id}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                // Show success message
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: 'User has been deleted',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    allowOutsideClick: false
+                                }).then(() => {
+                                    Table.FillGrid();
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            Swal.showValidationMessage(`Request failed: ${error}`);
+                        });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            });
         });
     },
     FillGridRequested: function () {

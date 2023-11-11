@@ -15,6 +15,11 @@ namespace API.Services
 			_context = context;
 		}
 
+		public Task DeleteUser(int id)
+		{
+			return _userRepository.DeleteUser(id);
+		}
+
 		public async Task<UserModel> FillForm(int id)
 		{
 			return await _userRepository.FillForm(id);

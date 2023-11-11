@@ -8,5 +8,6 @@ namespace API.Repository.Interfaces
 		public Task<object> GetUserList();
 		public Task SaveUser(UserModel user);
 		public Task<UserModel> FillForm(int id);
+		public Task DeleteUser(int id);
 	}
 }

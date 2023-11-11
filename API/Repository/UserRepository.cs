@@ -1,5 +1,6 @@
 ﻿using API.Context.SP;
 using API.Context.Table;
+using API.Models;
 using API.Repository.Interfaces;
 using API.SP;
 using Microsoft.EntityFrameworkCore;
@@ -67,6 +68,14 @@ namespace API.Repository
 				};
 			}
 			return userModel;
+		}
+
+		public async Task DeleteUser(int id)
+		{
+			User user = await _context.Users.FindAsync(id);
+			_context.Users.Remove(user);
+			await _context.SaveChangesAsync();
+
 		}
 	}
 }

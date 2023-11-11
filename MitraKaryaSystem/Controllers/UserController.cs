@@ -46,5 +46,13 @@ namespace MitraKaryaSystem.Controllers
 			var data = await _userService.FillForm(id);
 			return PartialView("_UserModal", data);
 		}
+
+		[Route("DeleteUser")]
+		[HttpPost]
+		public async Task<IActionResult> DeleteUser(int id)
+		{
+			await _userService.DeleteUser(id);
+			return Json(new { success = true });
+		}
 	}
 }
