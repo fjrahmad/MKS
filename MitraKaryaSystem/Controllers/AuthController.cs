@@ -1,4 +1,5 @@
-﻿using API.Services.Interfaces;
+﻿using API.Models;
+using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -24,40 +25,48 @@ namespace MitraKaryaSystem.Controllers
 			return RedirectToAction("Login", "Auth");
 		}
 		[HttpPost]
-		public async Task<IActionResult> Login(string username, string password)
+		public async Task<IActionResult> Login(User user)
 		{
-			if (await _authService.Login(username, password))
+			if (ModelState.IsValid)
 			{
-				var claims = new[]
+				if (await _authService.Login(user.Email, user.Password))
 				{
-			new Claim(ClaimTypes.Name, "Username"),
-			new Claim(ClaimTypes.Role, "User")
-		};
+					var currentUser = await _authService.GetCurrentUser();
+					var claims = new[]
+					{
+							new Claim(ClaimTypes.Name, currentUser.Email),
+							new Claim(ClaimTypes.Role, "User")
+					};
 
-				// Create the identity and principal
-				var identity = new ClaimsIdentity(claims, "AuthScheme");
-				var principal = new ClaimsPrincipal(identity);
+					// Create the identity and principal
+					var identity = new ClaimsIdentity(claims, "AuthScheme");
+					var principal = new ClaimsPrincipal(identity);
 
-				// Create authentication properties as needed
-				var authenticationProperties = new AuthenticationProperties
-				{
-					IsPersistent = true // You can set this based on your requirements
-				};
+					// Create authentication properties as needed
+					var authenticationProperties = new AuthenticationProperties
+					{
+						IsPersistent = true // You can set this based on your requirements
+					};
 
-				// Create the authentication ticket
-				var ticket = new AuthenticationTicket(principal, "MKS");
-				// Sign in the user using the specified scheme
-				await HttpContext.SignInAsync("AuthScheme", principal, authenticationProperties);
-				AuthenticateResult.Success(ticket);
+					// Create the authentication ticket
+					var ticket = new AuthenticationTicket(principal, "MKS");
+					// Sign in the user using the specified scheme
+					await HttpContext.SignInAsync("AuthScheme", principal, authenticationProperties);
+					AuthenticateResult.Success(ticket);
 
-				// Redirect to the secure area
-				return RedirectToAction("Index", "Home");
+					// Redirect to the secure area
+					return RedirectToAction("Index", "Home");
 
+				}
 			}
 
 
 			return View();
 		}
 
+		public IActionResult AccessDenied()
+		{
+			return View();
+		}
 	}
 }

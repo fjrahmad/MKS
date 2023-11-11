@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Context;
+namespace API.Context.Table;
 
 public partial class MKSContext : DbContext
 {
@@ -46,9 +46,12 @@ public partial class MKSContext : DbContext
 
             entity.ToTable("User");
 
-            entity.Property(e => e.Address).IsRequired();
             entity.Property(e => e.Email).HasMaxLength(256);
             entity.Property(e => e.FullName).IsRequired();
+            entity.Property(e => e.KTP)
+                .IsRequired()
+                .HasMaxLength(16)
+                .IsUnicode(false);
             entity.Property(e => e.PhoneNumber).IsRequired();
             entity.Property(e => e.UserName).HasMaxLength(256);
         });

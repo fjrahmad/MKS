@@ -1,4 +1,5 @@
-﻿using API.Repository.Interfaces;
+﻿using API.Models;
+using API.Repository.Interfaces;
 using API.Services.Interfaces;
 
 namespace API.Services
@@ -14,5 +15,11 @@ namespace API.Services
 		{
 			return await _authRepository.Login(username, password);
 		}
+
+		public async Task<UserModel> GetCurrentUser()
+		{
+			return await _authRepository.GetCurrentUser();
+		}
+
 	}
 }
