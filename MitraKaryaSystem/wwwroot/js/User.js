@@ -17,13 +17,13 @@ let Table = {
             { data: 'active' },
             {
                 data: null,
-                render: function (data, type, row) {
+                render: function () {
                     return `
-                    <a class="btn btn-warning edit" href="#" data-id="${row.id}">
+                    <a class="btn btn-warning edit" href="#">
                         <i class="fa fa-pencil"></i> 
                     </a>
                     <span style="margin: 0 5px;"></span>
-                    <a class="btn btn-danger delete" href="#" data-id="${row.id}">
+                    <a class="btn btn-danger delete">
                         <i class="fa fa-trash"></i> 
                     </a>
             `;
@@ -127,7 +127,7 @@ let Table = {
         tableID.DataTable({
             "deferRender": true,
             "processing": true,
-            "serverSide": false,
+            "serverSide": true,
             "destroy": true,
             "filter": true,
             "searching": false,
@@ -249,17 +249,6 @@ let Forms = {
     Save: function () {
         // Serialize the form data
         var formData = $('#userForm').serialize();
-
-        // Show loading indicator
-        Swal.fire({
-            title: 'Please wait',
-            text: 'Saving user..',
-            showConfirmButton: false,
-            allowOutsideClick: false,
-        });
-        Swal.showLoading();
-
-        // Submit the form using AJAX
         $.ajax({
             url: 'SaveUser',
             type: 'POST',
