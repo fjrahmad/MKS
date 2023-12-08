@@ -32,6 +32,9 @@ public partial class MKSContext : DbContext
 
             entity.ToTable("Role");
 
+            entity.Property(e => e.Description)
+                .HasMaxLength(125)
+                .IsUnicode(false);
             entity.Property(e => e.Name).HasMaxLength(256);
         });
 

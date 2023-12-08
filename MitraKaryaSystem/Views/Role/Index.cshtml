@@ -1,0 +1,30 @@
+﻿@{
+	ViewData["Title"] = "Role Setting";
+}
+
+<div class="row">
+	<!-- Left side: Table for Roles -->
+	<partial name="_TableRole" />
+</div>
+<!-- Modal -->
+<div class="modal fade" id="roleModal" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="roleModalLabel" aria-hidden="true">
+	<div class="modal-dialog  modal-lg">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color:#18864A">
+				<h5 class="modal-title text-white" id="roleModalLabel">Role Information</h5>
+			</div>
+			<div class="modal-body" id="bodyModal">
+				<partial name="_roleModal" />
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" id="buttonSave" class="btn btn-primary">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+@section Scripts{
+	<script src="~/js/Role.js" asp-append-version="true"></script>
+	<script src="~/js/Common.js" asp-append-version="true"></script>
+}
