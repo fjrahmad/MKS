@@ -1,72 +1,133 @@
 ﻿using API.Context.Table;
 using API.Models;
 using API.Repository.Interfaces;
+using API.Context.SP;
 using Microsoft.EntityFrameworkCore;
 using MitraKaryaSystem.Models;
 
 namespace API.Repository
 {
-	public class RoleRepository : IRoleRepository
-	{
-		private readonly MKSContext _context;
-		public RoleRepository(MKSContext context) { _context = context; }
+    public class RoleRepository : IRoleRepository
+    {
+        private readonly MKSTableContext _context;
+        private readonly MKSSPContextProcedures _procedure;
+        public RoleRepository(MKSTableContext context, MKSSPContextProcedures procedure) { _context = context; _procedure = procedure; }
 
-		public async Task DeleteRole(int id)
-		{
-			_context.Roles.Remove(await _context.Roles.FindAsync(id));
-			await _context.SaveChangesAsync();
-		}
+        public async Task DeleteRole(int id)
+        {
+            _context.Roles.Remove(await _context.Roles.FindAsync(id));
+            await DeleteRolePermission(id);
+            await _context.SaveChangesAsync();
+        }
 
-		public async Task DeleteRoleClaim(int id)
-		{
-			_context.RoleClaims.Remove(await _context.RoleClaims.FindAsync(id));
-			await _context.SaveChangesAsync();
-		}
+        private async Task DeleteRolePermission(int id)
+        {
+            var rolePermissions = _context.RolePermissions.Where(x => x.RoleID == id).ToListAsync();
+            _context.RolePermissions.RemoveRange(await rolePermissions);
+            await _context.SaveChangesAsync();
+        }
 
-		public async Task<object> GetRoleById(int id)
-		{
-			return await _context.Roles.FindAsync(id);
-		}
+        private async Task<List<PermissionModel>> GetRolePermissionList(int id)
+        {
+            var data = await _procedure.uspGetPermissionListAsync(id);
+            List<PermissionModel> permissionModels = new List<PermissionModel>();
+            data.ForEach(x => permissionModels.Add(new PermissionModel { ID = x.ID, Name = x.Name, IsSelected = (bool)x.IsSelected }));
+            return permissionModels;
+        }
 
-		public async Task<object> GetRoleClaimList()
-		{
-			return await _context.RoleClaims.ToListAsync();
-		}
+        public async Task<object> GetRoleList()
+        {
+            return await _context.Roles.ToListAsync();
+        }
 
-		public async Task<object> GetRoleList()
-		{
-			return await _context.Roles.ToListAsync();
-		}
+        public async Task SaveRole(RoleViewModel role)
+        {
+            try
+            {
+                if (role.Role.ID != 0)
+                {
+                    Role roles = await _context.Roles.FindAsync(role.Role.ID);
+                    roles.Name = role.Role.Name;
+                    roles.Description = role.Role.Description;
+                    _context.Roles.Update(roles);
+                    await _context.SaveChangesAsync();
 
-		public async Task SaveRole(RoleModel role)
-		{
-			await _context.Roles.AddAsync(new Role { Name = role.Name, Description = role.Description });
-			await _context.SaveChangesAsync();
-		}
+                    foreach (var x in role.Permissions)
+                    {
+                        await SaveRolePermission(x, role.Role.ID);
+                    }
+                }
+                else
+                {
+                    var newRole = new Role { Name = role.Role.Name, Description = role.Role.Description };
+                    _context.Roles.Add(newRole);
+                    await _context.SaveChangesAsync();
 
-		public async Task SaveRoleClaim(RoleClaim roleClaim)
-		{
-			await _context.RoleClaims.AddAsync(roleClaim);
-			await _context.SaveChangesAsync();
-		}
+                    foreach (var x in role.Permissions)
+                    {
+                        await SaveRolePermission(x, newRole.ID);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately
+                Console.WriteLine(ex.Message);
+            }
+        }
 
-		public async Task<RoleModel> FillFormRole(int id)
-		{
-			Role roles = await _context.Roles.FindAsync(id);
-			RoleModel roleModel = null;
-			if (roles == null)
-			{
-				roleModel = new RoleModel();
-			}
-			else
-			{
-				roleModel = new RoleModel
-				{
-					Name = roles.Name,
-					Description = roles.Description
-				};
-			}
-			return roleModel;
-		}
-	}
+        private async Task SaveRolePermission(PermissionModel permission, int roleID)
+        {
+            try
+            {
+                var rolePermissions = await _context.RolePermissions.ToListAsync();
+
+                if (!rolePermissions.Exists(x => x.PermissionID == permission.ID && x.RoleID == roleID) && permission.IsSelected)
+                {
+                    _context.RolePermissions.Add(new RolePermission { PermissionID = permission.ID, RoleID = roleID });
+                    await _context.SaveChangesAsync();
+                }
+                else if (rolePermissions.Exists(x => x.PermissionID == permission.ID && x.RoleID == roleID) && !permission.IsSelected)
+                {
+                    var rolePermission = await _context.RolePermissions.FirstOrDefaultAsync(x => x.PermissionID == permission.ID && x.RoleID == roleID);
+                    _context.RolePermissions.Remove(rolePermission);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+        public async Task<RoleViewModel> FillFormRole(int id)
+        {
+            Role roles = await _context.Roles.FindAsync(id);
+            RoleViewModel roleModel = null;
+            if (roles == null)
+            {
+                roleModel = new RoleViewModel
+                {
+                    Role = new RoleModel(),
+                    Permissions = await GetRolePermissionList(id)
+                };
+            }
+            else
+            {
+                roleModel = new RoleViewModel
+                {
+                    Role = new RoleModel
+                    {
+                        ID = roles.ID,
+                        Name = roles.Name,
+                        Description = roles.Description
+                    },
+                    Permissions = await GetRolePermissionList(id)
+                };
+            }
+            return roleModel;
+        }
+    }
 }

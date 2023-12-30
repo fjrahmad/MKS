@@ -2,14 +2,13 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using API.SP;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Context.SP;
 
-public partial class SPContext : DbContext
+public partial class MKSSPContext : DbContext
 {
-    public SPContext(DbContextOptions<SPContext> options)
+    public MKSSPContext(DbContextOptions<MKSSPContext> options)
         : base(options)
     {
     }

@@ -3,11 +3,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace API.Models;
+namespace API.Context.Table;
 
-public partial class UserRole
+public partial class RolePermission
 {
-    public int UserID { get; set; }
+    public int ID { get; set; }
+
+    public int PermissionID { get; set; }
 
     public int RoleID { get; set; }
 }

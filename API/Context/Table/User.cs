@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace API.Models;
+namespace API.Context.Table;
 
 public partial class User
 {

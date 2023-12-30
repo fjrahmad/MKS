@@ -3,15 +3,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace API.Models;
+namespace API.Context.Table;
 
-public partial class UserClaim
+public partial class Role
 {
     public int ID { get; set; }
 
-    public int UserID { get; set; }
+    public string Name { get; set; }
 
-    public string ClaimType { get; set; }
-
-    public string ClaimValue { get; set; }
+    public string Description { get; set; }
 }

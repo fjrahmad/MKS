@@ -1,22 +1,23 @@
-﻿@model RoleModel
+﻿@model RoleViewModel
+
 <form id="roleForm">
-	<input type="text" hidden asp-for="@Model.ID" />
+    <input type="text" hidden asp-for="@Model.Role.ID" />
 
-	<div class="form-group">
-		<label asp-for="@Model.Name" class="form-label"> Name</label>
-		<input asp-for="@Model.Name" id="Name" autocomplete="off" class="form-control" aria-required="true" />
-		<span asp-validation-for="@Model.Name" class="text-danger"></span>
+    <div class="form-group">
+        <label asp-for="@Model.Role.Name" class="form-label"> Name</label>
+        <input asp-for="@Model.Role.Name" id="Name" autocomplete="off" class="form-control" aria-required="true" />
+        <span asp-validation-for="@Model.Role.Name" class="text-danger"></span>
 
-	</div>
-	<div class="form-group">
-		<label asp-for="@Model.Description" class="form-label"> Description</label>
-		<textarea asp-for="@Model.Description" id="Description" autocomplete="off" class="form-control" aria-required="true"></textarea>
-		<span asp-validation-for="@Model.Description" class="text-danger"></span>
-	</div>
-	<br />
-	<div class="form-group">
-		<!-- Include your table permission here -->
-		<partial name="_TablePermission" />
-	</div>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Role.Description" class="form-label"> Description</label>
+        <textarea asp-for="@Model.Role.Description" id="Description" autocomplete="off" class="form-control" aria-required="true"></textarea>
+        <span asp-validation-for="@Model.Role.Description" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <!-- Include your table permission here -->
+        <partial model="@Model" name="_TablePermission" />
+    </div>
 </form>
 

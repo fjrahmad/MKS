@@ -3,11 +3,10 @@
     Buttons.Init();
 });
 let Table = {
-    FillGridClaims: function () {
-        let data = Common.GetData.Get('FillGridClaims')
+    FillGridPermission: function () {
+        let data = Common.GetData.Get('FillGridRolePermission')
         let columns = [
-            { data: 'module_Name' },
-            { data: 'permission_Name' },
+            { data: 'name' }
 
         ];
         let tableID = '#tablePermission';
@@ -78,27 +77,25 @@ let Table = {
                 confirmButtonText: 'Yes, delete it',
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    return fetch(`DeleteUser?id=${row.id}`, {
+                    return fetch(`DeleteRole?id=${row.id}`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         }
                     })
-                        .then(response => {
-                            if (response.ok) {
-                                // Show success message
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: 'Success',
-                                    text: 'User has been deleted',
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    allowOutsideClick: false
-                                }).then(() => {
-                                    Table.FillGrid();
-                                });
-                            }
+                        .then(() => {
+                            // Show success message
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Role has been deleted',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                allowOutsideClick: false
+                            }).then(() => {
+                                Table.FillGridRole();
+                            });
                         })
                         .catch(error => {
                             Swal.showValidationMessage(`Request failed: ${error}`);
@@ -113,7 +110,7 @@ let Table = {
 
 let Buttons = {
     Init: function () {
-        $('#buttonSaveRole').click(function () {
+        $('#buttonSave').click(function () {
             Form.Save();
         });
         $('#buttonAddRole').click(function () {
@@ -123,51 +120,33 @@ let Buttons = {
 }
 var Form = {
     Save: function () {
-        // Serialize the form data
-        var formData = $('#roleForm').serialize();
-        $.ajax({
-            url: 'SaveRole',
-            type: 'POST',
-            data: formData,
-            success: function (result) {
-                if (result.success) {
-                    // Close loading indicator
-                    Swal.close();
-                    Swal.hideLoading()
-                    // Close the modal
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: "Save Success",
-                        showConfirmButton: false,
-                        timer: 1500,
-                        allowOutsideClick: false
-                    }).then(() => {
-                        Table.FillGridRole();
-                    });
-                } else {
-                    console.error('Saving failed:', result);
-                    // Close loading indicator
-                    Swal.close();
-                }
-            },
-            error: function (error) {
-                // Show error message
-                console.error('Saving failed:', error);
-            }
+        // Serialize the form data for Role
+        var formData = $('#roleForm').serializeArray();
+
+        // Collect permission data
+        var permissions = [];
+        $('input[name^="permission"]').each(function () {
+            permissions.push({
+                ID: $(this).val(),
+                IsSelected: $(this).prop('checked')
+            });
         });
-    },
-    SaveClaim: function () {
-        // Serialize the form data
-        var formData = $('#roleForm').serialize();
+
+        var requestData = {
+            Role: {
+                ID: formData.find(item => item.name === 'Role.ID').value,
+                Name: formData.find(item => item.name === 'Role.Name').value,
+                Description: formData.find(item => item.name === 'Role.Description').value
+            },
+            Permissions: permissions
+        };
         $.ajax({
             url: 'SaveRole',
             type: 'POST',
-            data: formData,
+            contentType: 'application/json', // Set content type to JSON
+            data: JSON.stringify(requestData),
             success: function (result) {
                 if (result.success) {
-                    // Close loading indicator
-                    Swal.close();
                     Swal.hideLoading()
                     // Close the modal
                     Swal.fire({
@@ -179,11 +158,11 @@ var Form = {
                         allowOutsideClick: false
                     }).then(() => {
                         Table.FillGridRole();
+                        $('#roleModal').modal('hide');
                     });
                 } else {
                     console.error('Saving failed:', result);
                     // Close loading indicator
-                    Swal.close();
                 }
             },
             error: function (error) {
@@ -199,10 +178,7 @@ var Form = {
             type: 'POST',
             data: { id: id },
             success: function (result) {
-                console.log(result);
                 $('#bodyModal').html(result);
-                // Update the modal body with the retrieved partial view
-
                 // Open the modal
                 $('#roleModal').modal('show');
             },

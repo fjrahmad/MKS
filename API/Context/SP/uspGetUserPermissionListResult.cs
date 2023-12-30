@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API.SP
+namespace API.Context.SP
 {
-    public partial class uspUserAddResult
+    public partial class uspGetUserPermissionListResult
     {
-        public decimal? ID { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -39,12 +39,12 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddScoped<SPContextProcedures>();
-builder.Services.AddDbContext<MKSContext>(options =>
+builder.Services.AddScoped<MKSSPContextProcedures>();
+builder.Services.AddDbContext<MKSTableContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MKS"));
-});
-builder.Services.AddDbContext<SPContext>(options =>
+}, ServiceLifetime.Scoped);
+builder.Services.AddDbContext<MKSSPContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MKS"));
 });
