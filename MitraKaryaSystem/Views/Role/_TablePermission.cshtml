@@ -1,31 +1,25 @@
-﻿<div class="col-12">
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover" cellpadding="0" cellspacing="0" style="text-align:center" width="100%" id="tablePermission">
-                    <thead>
-                        <tr>
-                            <th>Permission Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model != null)
-                        {
+﻿<div class="table-responsive">
+    <table class="table table-bordered table-hover" cellpadding="0" cellspacing="0" style="text-align:center" width="100%" id="tablePermission">
+        <thead>
+            <tr>
+                <th>Permission Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
 
-                            @foreach (var item in Model.Permissions)
-                            {
-                                <tr>
-                                    <td>@item.Name</td>
-                                    <td>
-                                        <input type="checkbox" name="permission" value="@item.ID" @(item.IsSelected ? "checked" : "") />
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+                @foreach (var item in Model.Permissions)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <input type="checkbox" name="permission" value="@item.ID" @(item.IsSelected ? "checked" : "") />
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 </div>

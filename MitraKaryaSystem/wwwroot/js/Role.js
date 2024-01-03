@@ -4,11 +4,6 @@
 });
 let Table = {
     FillGridPermission: function () {
-        let data = Common.GetData.Get('FillGridRolePermission')
-        let columns = [
-            { data: 'name' }
-
-        ];
         let tableID = '#tablePermission';
         $(tableID).DataTable({
             "deferRender": true,
@@ -18,9 +13,6 @@ let Table = {
             "filter": true,
             "searching": false,
             "responsive": true,
-            "data": data,
-            "columns": columns,
-
         });
     },
     FillGridRole: function () {
@@ -181,6 +173,7 @@ var Form = {
                 $('#bodyModal').html(result);
                 // Open the modal
                 $('#roleModal').modal('show');
+                Table.FillGridPermission();
             },
             error: function (error) {
                 // Handle errors if needed
