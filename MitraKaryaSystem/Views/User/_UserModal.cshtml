@@ -1,65 +1,63 @@
 ﻿@model UserModel
 
 <form id="userForm">
-	<input type="text" hidden asp-for="@Model.ID" />
+    <input type="text" hidden asp-for="@Model.ID" />
 
-	<div class="form-group">
-		<label asp-for="@Model.UserName" class="form-label">User Name</label>
-		<input asp-for="@Model.UserName" id="UserName" autocomplete="off" class="form-control" aria-required="true" />
-		<span asp-validation-for="@Model.UserName" class="text-danger"></span>
+    <div class="form-group">
+        <label asp-for="@Model.UserName" class="form-label">User Name</label>
+        <input asp-for="@Model.UserName" id="UserName" autocomplete="off" class="form-control" aria-required="true" />
+        <span asp-validation-for="@Model.UserName" class="text-danger"></span>
 
-	</div>
-	@if (Model != null)
-	{
+    </div>
+    @if (Model != null)
+    {
 
-		@if (Model.ID == 0)
-		{
-			<div class="form-group">
-				<label asp-for="@Model.Password" class="form-label">Password</label>
-				<input asp-for="@Model.Password" id="Password" autocomplete="off" type="password" class="form-control" aria-required="true" />
-				<span asp-validation-for="@Model.Password" class="text-danger"></span>
-			</div>
-		}
-	}
-	<div class="form-group">
-		<label asp-for="@Model.Email" class="form-label">Email</label>
-		<input asp-for="@Model.Email" id="Email" type="email" class="form-control" aria-required="true" />
-		<span asp-validation-for="@Model.Email" class="text-danger"></span>
-	</div>
-	<div class="form-group">
-		<label asp-for="@Model.FullName" class="form-label">Full Name</label>
-		<input asp-for="@Model.FullName" id="FullName" autocomplete="off" class="form-control" aria-required="true" />
-		<span asp-validation-for="@Model.FullName" class="text-danger"></span>
+        @if (Model.ID == 0)
+        {
+            <div class="form-group">
+                <label asp-for="@Model.Password" class="form-label">Password</label>
+                <input asp-for="@Model.Password" id="Password" autocomplete="off" type="password" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.Password" class="text-danger"></span>
+            </div>
+        }
+    }
+    <div class="form-group">
+        <label asp-for="@Model.Email" class="form-label">Email</label>
+        <input asp-for="@Model.Email" id="Email" type="email" class="form-control" aria-required="true" />
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.FullName" class="form-label">Full Name</label>
+        <input asp-for="@Model.FullName" id="FullName" autocomplete="off" class="form-control" aria-required="true" />
+        <span asp-validation-for="@Model.FullName" class="text-danger"></span>
 
-	</div>
-	<div class="form-group">
-		<label asp-for="@Model.PhoneNumber" class="form-label">Phone Number</label>
-		<input asp-for="@Model.PhoneNumber" id="PhoneNumber" autocomplete="off" class="form-control" aria-required="true" />
-		<span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhoneNumber" class="form-label">Phone Number</label>
+        <input asp-for="@Model.PhoneNumber" id="PhoneNumber" autocomplete="off" class="form-control" aria-required="true" />
+        <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
 
-	</div>
-	<div class="form-group">
-		<label asp-for="@Model.KTP" class="form-label">KTP</label>
-		<input asp-for="@Model.KTP" id="KTP" class="form-control" aria-required="true" />
-		<span asp-validation-for="@Model.KTP" class="text-danger"></span>
-	</div>
-	<div class="row">
-		<div class="col-1">
-			<label>Status</label>
-		</div>
-		<div class="col-11">
-			<div class="custom-control custom-switch">
-				<input type="checkbox" asp-for="@Model.IsActive" class="custom-control-input" checked="@(Model !=null && Model.IsActive ? true:false)" id="isActive">
-				<label asp-for="@Model.IsActive" class="form-label">Active</label>
-			</div>
-		</div>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.KTP" class="form-label">KTP</label>
+        <input asp-for="@Model.KTP" id="KTP" class="form-control" aria-required="true" />
+        <span asp-validation-for="@Model.KTP" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            <label>Status</label>
+        </div>
+        <div class="col-11">
+            <input type="checkbox" asp-for="@Model.IsActive" class="custom-control-input" checked="@(Model !=null && Model.IsActive ? true:false)" id="isActive">
+            <label asp-for="@Model.IsActive" class="form-label">Active</label>
+        </div>
 
-	</div>
+    </div>
 
 </form>
 
 @section Scripts {
-	@{
-		await Html.RenderPartialAsync("_ValidationScriptsPartial");
-	}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
