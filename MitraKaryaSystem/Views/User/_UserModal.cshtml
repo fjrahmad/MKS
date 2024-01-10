@@ -48,7 +48,7 @@
             <label>Status</label>
         </div>
         <div class="col-11">
-            <input type="checkbox" asp-for="@Model.IsActive" class="custom-control-input" checked="@(Model !=null && Model.IsActive ? true:false)" id="isActive">
+            <input type="checkbox" asp-for="@Model.IsActive" checked="@(Model !=null && Model.IsActive ? true:false)" id="isActive">
             <label asp-for="@Model.IsActive" class="form-label">Active</label>
         </div>
 
