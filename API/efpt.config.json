@@ -16,7 +16,43 @@
    "T4TemplatePath": null,
    "Tables": [
       {
+         "Name": "[dbo].[Category]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Customer]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Debt]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DebtPayment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Lookup]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Permission]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PurchaseOrder]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PurchaseOrderItem]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PurchasePayment]",
          "ObjectType": 0
       },
       {
@@ -25,6 +61,26 @@
       },
       {
          "Name": "[dbo].[RolePermission]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SalesOrder]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SalesOrderItem]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Supplier]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Transaction]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Unit]",
          "ObjectType": 0
       },
       {
