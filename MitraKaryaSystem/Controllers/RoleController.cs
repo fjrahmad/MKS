@@ -1,10 +1,12 @@
 ﻿using API.Models;
 using API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MitraKaryaSystem.Models;
 
 namespace MitraKaryaSystem.Controllers
 {
+    [Authorize]
     public class RoleController : Controller
     {
         private readonly IRoleService _roleService;
