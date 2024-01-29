@@ -1,6 +1,6 @@
-﻿using API.Models;
-using API.Repository.Interfaces;
+﻿using API.Repository.Interfaces;
 using API.Services.Interfaces;
+using MitraKaryaSystem.Models;
 
 namespace API.Services
 {

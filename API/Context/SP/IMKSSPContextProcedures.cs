@@ -12,6 +12,7 @@ namespace API.Context.SP
 {
     public partial interface IMKSSPContextProcedures
     {
+        Task<List<GetProductListResult>> GetProductListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspGetPermissionListResult>> uspGetPermissionListAsync(int? RoleID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspGetUserPermissionListResult>> uspGetUserPermissionListAsync(string UserName, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspUserAddResult>> uspUserAddAsync(string FullName, string PhoneNumber, string Username, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);

@@ -1,17 +1,19 @@
-﻿using API.Context.Table;
-using API.Models;
+﻿using API.Context.SP;
+using API.Context.Table;
 using API.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using MitraKaryaSystem.Models;
 
 namespace API.Repository
 {
     public class ProductRepository : IProductRepository
     {
         private readonly MKSTableContext _context;
-
-        public ProductRepository(MKSTableContext context)
+        private readonly MKSSPContextProcedures _procedures;
+        public ProductRepository(MKSTableContext context, MKSSPContextProcedures procedures)
         {
             _context = context;
+            _procedures = procedures;
         }
 
         public async Task DeleteProduct(int id)
@@ -45,36 +47,49 @@ namespace API.Repository
         }
         public async Task<object> GetProductList()
         {
-            return Task.FromResult<object>(await _context.Products.ToListAsync());
+            return Task.FromResult<object>(await _procedures.GetProductListAsync());
         }
         public async Task SaveProduct(ProductModel productModel)
         {
-            if (productModel.ID == 0)
+            try
             {
-                _context.Products.Add(new Product
+                if (productModel.ID == 0)
                 {
-                    Name = productModel.Name,
-                    CategoryID = productModel.CategoryID,
-                    UnitID = productModel.UnitID,
-                    Description = productModel.Description,
-                    UnitPrice = productModel.UnitPrice,
-                    StockQuantity = productModel.StockQuantity,
-                    SupplierID = productModel.SupplierID
-                });
+                    _context.Products.Add(new Product
+                    {
+                        Name = productModel.Name,
+                        CategoryID = productModel.CategoryID,
+                        UnitID = productModel.UnitID,
+                        Description = productModel.Description,
+                        UnitPrice = productModel.UnitPrice,
+                        StockQuantity = productModel.StockQuantity,
+                        SupplierID = productModel.SupplierID,
+                        CreatedBy = AuthRepository.CurrentUser.FullName,
+                        CreatedAt = DateTime.Now
+                    });
+                }
+                else
+                {
+                    Product product = await _context.Products.FindAsync(productModel.ID);
+                    product.Name = productModel.Name;
+                    product.CategoryID = productModel.CategoryID;
+                    product.UnitID = productModel.UnitID;
+                    product.Description = productModel.Description;
+                    product.UnitPrice = productModel.UnitPrice;
+                    product.StockQuantity = productModel.StockQuantity;
+                    product.SupplierID = productModel.SupplierID;
+                    product.UpdatedBy = AuthRepository.CurrentUser.FullName;
+                    product.UpdatedAt = DateTime.Now;
+                    _context.Products.Update(product);
+                }
+                await _context.SaveChangesAsync();
             }
-            else
+            catch (Exception e)
             {
-                Product product = await _context.Products.FindAsync(productModel.ID);
-                product.Name = productModel.Name;
-                product.CategoryID = productModel.CategoryID;
-                product.UnitID = productModel.UnitID;
-                product.Description = productModel.Description;
-                product.UnitPrice = productModel.UnitPrice;
-                product.StockQuantity = productModel.StockQuantity;
-                product.SupplierID = productModel.SupplierID;
-                _context.Products.Update(product);
+
+                throw e;
             }
-            await _context.SaveChangesAsync();
+
         }
     }
 }

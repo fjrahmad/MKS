@@ -1,17 +1,26 @@
-﻿<form id="supplierForm">
+﻿@model SupplierModel
+<form id="supplierForm">
+    <input asp-for="@Model.ID" type="text" hidden />
     <div class="row">
-        <label for="productName" class="form-label col-3">Name</label>
-        <input type="text" id="productName" required class="form-control col-9" />
+        <label asp-for="@Model.SupplierName" for="Name" class="form-label col-3">Name</label>
+        <input asp-for="@Model.SupplierName" type="text" id="Name" required class="form-control col-9" />
+        <span asp-validation-for="@Model.SupplierName" class="text-danger"></span>
+
     </div>
     <br />
     <div class="row">
-        <label for="contactPerson" class="form-label col-3">Contact Person</label>
-        <input type="text" id="contactPerson" required class="form-control col-9" />
+        <label asp-for="@Model.ContactPerson" for="contactPerson" class="form-label col-3">Contact Person</label>
+        <input asp-for="@Model.ContactPerson" type="text" id="contactPerson" required class="form-control col-9" />
+        <span asp-validation-for="@Model.ContactPerson" class="text-danger"></span>
+
     </div>
     <br />
     <div class="row">
-        <label for="contactNumber" class="form-label col-3">Contact Number</label>
-        <input type="number" id="contactNumber" required class="form-control col-9" />
+        <label asp-for="@Model.ContactNumber" for="contactNumber" class="form-label col-3">Contact Number</label>
+        <input asp-for="@Model.ContactNumber" type="number" id="contactNumber" required class="form-control col-9" />
+        <span asp-validation-for="@Model.ContactNumber" class="text-danger"></span>
+
     </div>
     <br />
 </form>
+<partial name="_TableSupplier" />

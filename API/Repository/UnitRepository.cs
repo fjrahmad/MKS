@@ -1,7 +1,7 @@
 ﻿using API.Context.Table;
-using API.Models;
 using API.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using MitraKaryaSystem.Models;
 
 namespace API.Repository
 {
@@ -20,20 +20,20 @@ namespace API.Repository
             {
                 _context.Units.Add(new Unit
                 {
-                    Name = unitModel.Name
+                    Name = unitModel.UnitName
                 });
             }
             else
             {
                 Unit unit = await _context.Units.FindAsync(unitModel.ID);
-                unit.Name = unitModel.Name;
+                unit.Name = unitModel.UnitName;
                 _context.Units.Update(unit);
             }
             await _context.SaveChangesAsync();
         }
         public async Task<object> GetUnitList()
         {
-            return Task.FromResult<object>(await _context.Units.ToListAsync());
+            return Task.FromResult<object>(await _context.Units.Select(x => new { x.ID, UnitName = x.Name }).ToListAsync());
         }
         public async Task<UnitModel> FillFormUnit(int id)
         {
@@ -48,7 +48,7 @@ namespace API.Repository
                 unitModel = new UnitModel
                 {
                     ID = unit.ID,
-                    Name = unit.Name
+                    UnitName = unit.Name
                 };
             }
             return unitModel;

@@ -1,12 +1,26 @@
-﻿<div class="table-responsive">
-    <table class="table table-bordered table-hover" cellpadding="0" cellspacing="0" style="text-align:center" width="100%" id="tableUnit">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+﻿@model UnitModel
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" cellpadding="0" cellspacing="0" style="text-align:center" width="100%" id="tableUnit">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
+<button type="button" id="buttonNewUnit" class="btn btn-warning">New Unit</button>
+<br />
+<form id="formUnit">
+    <input asp-for="@Model.ID" type="text" hidden />
+    <input asp-for="@Model.UnitName" type="text" class="form-control" />
+    <span asp-validation-for="@Model.UnitName" class="text-danger"></span>
+
+</form>

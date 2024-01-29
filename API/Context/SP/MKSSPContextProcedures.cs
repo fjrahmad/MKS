@@ -34,6 +34,7 @@ namespace API.Context.SP
 
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<GetProductListResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspGetPermissionListResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspGetUserPermissionListResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspUserAddResult>().HasNoKey().ToView(null);
@@ -49,6 +50,26 @@ namespace API.Context.SP
         public MKSSPContextProcedures(MKSSPContext context)
         {
             _context = context;
+        }
+
+        public virtual async Task<List<GetProductListResult>> GetProductListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<GetProductListResult>("EXEC @returnValue = [dbo].[GetProductList]", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
         }
 
         public virtual async Task<List<uspGetPermissionListResult>> uspGetPermissionListAsync(int? RoleID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)

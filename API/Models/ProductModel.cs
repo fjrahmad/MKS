@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.Models
+namespace MitraKaryaSystem.Models
 {
     public class ProductModel
     {
@@ -15,6 +15,7 @@ namespace API.Models
         [Required(ErrorMessage = "Unit Price is required")]
         public decimal UnitPrice { get; set; }
         public int StockQuantity { get; set; }
+        [Required(ErrorMessage = "Supplier is required")]
         public short SupplierID { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using API.Models;
 using API.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using MitraKaryaSystem.Models;
 
 namespace API.Repository
 {
@@ -31,14 +32,14 @@ namespace API.Repository
                 categoryModel = new CategoryModel
                 {
                     ID = category.ID,
-                    Name = category.Name
+                    CategoryName = category.Name
                 };
             }
             return categoryModel;
         }
         public async Task<object> GetCategoryList()
         {
-            return Task.FromResult<object>(await _context.Categories.ToListAsync());
+            return Task.FromResult<object>(await _context.Categories.Select(x => new { x.ID, CategoryName = x.Name }).ToListAsync());
 
         }
         public async Task SaveCategory(CategoryModel categoryModel)
@@ -47,13 +48,13 @@ namespace API.Repository
             {
                 _context.Categories.Add(new Category
                 {
-                    Name = categoryModel.Name
+                    Name = categoryModel.CategoryName
                 });
             }
             else
             {
                 Category category = await _context.Categories.FindAsync(categoryModel.ID);
-                category.Name = categoryModel.Name;
+                category.Name = categoryModel.CategoryName;
                 _context.Categories.Update(category);
             }
             await _context.SaveChangesAsync();
