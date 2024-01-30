@@ -249,6 +249,16 @@ let Forms = {
     Save: function () {
         // Serialize the form data
         var formData = $('#userForm').serialize();
+        Swal.fire({
+            position: 'center',
+            icon: 'info',
+            title: 'Please wait',
+            text: 'Saving..',
+            showConfirmButton: false,
+            allowOutsideClick: false,
+
+        });
+        Swal.showLoading();
         $.ajax({
             url: 'SaveUser',
             type: 'POST',
