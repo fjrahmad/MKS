@@ -132,6 +132,16 @@ var Form = {
             },
             Permissions: permissions
         };
+        Swal.fire({
+            position: 'center',
+            icon: 'info',
+            title: 'Please wait',
+            text: 'Saving..',
+            showConfirmButton: false,
+            allowOutsideClick: false,
+
+        });
+        Swal.showLoading();
         $.ajax({
             url: 'SaveRole',
             type: 'POST',
