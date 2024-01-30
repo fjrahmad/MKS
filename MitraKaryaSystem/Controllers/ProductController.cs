@@ -55,8 +55,10 @@ namespace MitraKaryaSystem.Controllers
         {
             try
             {
-                var model = ModelState.GetFieldValidationState("ProductModel");
-                if (model == ModelValidationState.Valid)
+                var modelName = nameof(ProductModel); // Assuming "ProductModel" is the name of your model
+                var count = ModelState.Root.GetModelStateForProperty(modelName).Errors.Count;
+
+                if (count == 0)
                 {
                     await _service.SaveProduct(product.ProductModel);
                     return Json(new { success = true });
