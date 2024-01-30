@@ -1,45 +1,70 @@
 ﻿@model ProductViewModel
+@{
+    var categoryID = Model.ProductModel.CategoryID;
+    var supplierID = Model.ProductModel.SupplierID;
+    var unitID = Model.ProductModel.UnitID;
+}
 <form id="productForm">
     <input asp-for="ProductModel.ID" type="text" hidden />
-    <div class="row">
-        <label for="productName" class="form-label col-1">Name</label>
-        <input type="text" asp-for="ProductModel.Name" id="productName" required class="form-control col-9" />
-        <span asp-validation-for="@Model.ProductModel.Name" class="text-danger col-auto"></span>
+    <div class="row mb-3">
+        <label for="productName" class="form-label col-2">Name<span class="asterisk">*</span></label>
+        <div class="col-9">
+            <input type="text" asp-for="ProductModel.Name" id="productName" required class="form-control" />
+            <span asp-validation-for="ProductModel.Name" class="text-danger"></span>
+        </div>
+    </div>
 
+    <div class="row mb-3">
+        <label for="textDescription" class="form-label col-2">Description</label>
+        <div class="col-9">
+            <input type="text" asp-for="ProductModel.Description" id="textDescription" required class="form-control" />
+        </div>
     </div>
-    <br />
-    <div class="row">
-        <label for="textDescription" class="form-label col-1">Description</label>
-        <input type="text" asp-for=ProductModel.Description id="textDescription" required class="form-control col-9" />
-    </div>
-    <br />
-    <div class="row">
-        <label for="unitPrice" class="form-label col-1">Unit Price</label>
-        <input type="number" asp-for="ProductModel.UnitPrice" id="unitPrice" required class="form-control col-9" />
-        <span asp-validation-for="@Model.ProductModel.UnitPrice" class="text-danger"></span>
 
+    <div class="row mb-3">
+        <label for="unitPrice" class="form-label col-2">Unit Price<span class="asterisk">*</span></label>
+        <div class="col-9">
+            <input type="number" asp-for="ProductModel.UnitPrice" id="unitPrice" required class="form-control" />
+            <span asp-validation-for="ProductModel.UnitPrice" class="text-danger"></span>
+        </div>
     </div>
-    <br />
-    <div class="row">
-        <label asp-for="ProductModel.SupplierID" class="form-label col-1">Supplier</label>
-        <select asp-for="ProductModel.SupplierID" id="comboBoxSupplier" required class="form-control col-9 mr-1"></select>
-        <span asp-validation-for="@Model.ProductModel.SupplierID" class="text-danger col-auto"></span>
 
-        <button type="button" id="buttonAddSupplier" class="btn btn-primary col-auto">Add</button>
+    <div class="row mb-3">
+        <label asp-for="ProductModel.SupplierID" class="form-label col-2">Supplier<span class="asterisk">*</span></label>
+        <div class="col-9">
+            <select asp-for="ProductModel.SupplierID" id="comboBoxSupplier" required class="form-control"></select>
+            <span asp-validation-for="ProductModel.SupplierID" class="text-danger"></span>
+        </div>
+        <div class="col-1">
+            <button type="button" id="buttonAddSupplier" class="btn btn-primary">Add</button>
+        </div>
     </div>
-    <br />
-    <div class="row">
-        <label asp-for="ProductModel.CategoryID" class="form-label col-1">Category</label>
-        <select asp-for="ProductModel.CategoryID" id="comboBoxCategory" required class="form-control col-9 mr-1"></select>
-        <span asp-validation-for="@Model.ProductModel.CategoryID" class="text-danger col-auto"></span>
 
-        <button type="button" id="buttonAddCategory" class="btn btn-primary col-auto">Add</button>
+    <div class="row mb-3">
+        <label asp-for="ProductModel.CategoryID" class="form-label col-2">Category<span class="asterisk">*</span></label>
+        <div class="col-9">
+            <select asp-for="ProductModel.CategoryID" id="comboBoxCategory" required class="form-control"></select>
+            <span asp-validation-for="ProductModel.CategoryID" class="text-danger"></span>
+        </div>
+        <div class="col-1">
+            <button type="button" id="buttonAddCategory" class="btn btn-primary">Add</button>
+        </div>
     </div>
-    <br />
-    <div class="row">
-        <label asp-for="ProductModel.UnitID" class="form-label col-1">Unit</label>
-        <select required id="comboBoxUnit" asp-for=ProductModel.UnitID class="form-control col-9  mr-1"></select>
-        <span asp-validation-for="@Model.ProductModel.UnitID" class="text-danger col-auto"></span>
-        <button type="button" id="buttonAddUnit" class="btn btn-primary col-auto">Add</button>
+
+    <div class="row mb-3">
+        <label asp-for="ProductModel.UnitID" class="form-label col-2">Unit<span class="asterisk">*</span></label>
+        <div class="col-9">
+            <select required id="comboBoxUnit" asp-for="ProductModel.UnitID" class="form-control"></select>
+            <span asp-validation-for="ProductModel.UnitID" class="text-danger"></span>
+        </div>
+        <div class="col-1">
+            <button type="button" id="buttonAddUnit" class="btn btn-primary">Add</button>
+        </div>
     </div>
 </form>
+
+<script>
+    var categoryID = @Html.Raw(Json.Serialize(categoryID));
+    var supplierID = @Html.Raw(Json.Serialize(supplierID));
+    var unitID = @Html.Raw(Json.Serialize(unitID));
+</script>

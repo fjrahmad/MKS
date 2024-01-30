@@ -20,11 +20,12 @@ let Table = {
                 { "data": "unitName" },
                 { "data": "unitPrice" },
                 { "data": "stockQuantity" },
+                { "data": "supplierName" },
                 {
                     data: null,
                     render: function (row) {
                         return `
-                    <a class="btn btn-warning edit" asp-action="Form" asp-controller="Product" href="/Product/Form?id=${row.id}">
+                    <a class="btn btn-warning edit" href="/Product/Form?id=${row.id}">
                         <i class="fa fa-pencil"></i> 
                     </a>
                     <span style="margin: 0 5px;"></span>

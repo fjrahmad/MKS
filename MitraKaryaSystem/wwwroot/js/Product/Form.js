@@ -432,6 +432,17 @@ let Forms = {
     SaveProduct: function () {
         // Serialize the form data
         var formData = $('#productForm').serialize();
+        // Show loading indicator
+        Swal.fire({
+            position: 'center',
+            icon: 'info',
+            title: 'Please wait',
+            text: 'Saving..',
+            showConfirmButton: false,
+            allowOutsideClick: false,
+
+        });
+        Swal.showLoading();
         $.ajax({
             url: 'SaveProduct',
             type: 'POST',
@@ -470,37 +481,48 @@ let Forms = {
 let Control = {
     Category: function () {
         let id = '#comboBoxCategory';
-
         let data = Common.GetData.Get('GetCategoryList');
         $(id).html('');
-
+        $(id).append('<option selected value="' + 0 + '">' + 'Select category' + '</option>');
         if (data.result != null && data.result.length > 0) {
             $.each(data.result, function (i, item) {
-                $(id).append('<option value="' + item.id + '">' + item.categoryName + '</option>');
+                if (categoryID == item.id) {
+                    $(id).append('<option selected value="' + item.id + '">' + item.categoryName + '</option>');
+                }
+                else {
+                    $(id).append('<option value="' + item.id + '">' + item.categoryName + '</option>');
+
+                }
             });
         }
     },
     Unit: function () {
         let id = '#comboBoxUnit';
-
         let data = Common.GetData.Get('GetUnitList');
         $(id).html('');
-
+        $(id).append('<option selected value="' + 0 + '">' + 'Select unit' + '</option>');
         if (data.result != null && data.result.length > 0) {
             $.each(data.result, function (i, item) {
-                $(id).append('<option value="' + item.id + '">' + item.unitName + '</option>');
+                if (unitID == item.id) {
+                    $(id).append('<option selected value="' + item.id + '">' + item.unitName + '</option>');
+                } else {
+                    $(id).append('<option value="' + item.id + '">' + item.unitName + '</option>');
+                }
             });
         }
     },
     Supplier: function () {
         let id = '#comboBoxSupplier';
-
         let data = Common.GetData.Get('GetSupplierList');
         $(id).html('');
-
+        $(id).append('<option selected value="' + 0 + '">' + 'Select supplier' + '</option>');
         if (data.result != null && data.result.length > 0) {
             $.each(data.result, function (i, item) {
-                $(id).append('<option value="' + item.id + '">' + item.supplierName + '</option>');
+                if (supplierID == item.id) {
+                    $(id).append('<option selected value="' + item.id + '">' + item.supplierName + '</option>');
+                } else {
+                    $(id).append('<option value="' + item.id + '">' + item.supplierName + '</option>');
+                }
             });
         }
     },
