@@ -16,10 +16,18 @@ namespace API.Repository
             _procedures = procedures;
         }
 
-        public async Task DeleteProduct(int id)
+        public async Task<object> DeleteProduct(int id)
         {
-            _context.Products.Remove(await _context.Products.FindAsync(id));
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Products.Remove(await _context.Products.FindAsync(id));
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return Task.FromResult<object>(new { success = false, error = e.Message });
+            }
+            return Task.FromResult<object>(new { success = true });
         }
         public async Task<ProductModel> FillFormProduct(int id)
         {
@@ -49,7 +57,7 @@ namespace API.Repository
         {
             return Task.FromResult<object>(await _procedures.GetProductListAsync());
         }
-        public async Task SaveProduct(ProductModel productModel)
+        public async Task<object> SaveProduct(ProductModel productModel)
         {
             try
             {
@@ -86,10 +94,9 @@ namespace API.Repository
             }
             catch (Exception e)
             {
-
-                throw e;
+                return Task.FromResult<object>(new { success = false, error = e.Message });
             }
-
+            return Task.FromResult<object>(new { success = true });
         }
     }
 }

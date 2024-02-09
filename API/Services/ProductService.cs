@@ -12,9 +12,9 @@ namespace API.Services
         {
             _productRepository = productRepository;
         }
-        public async Task DeleteProduct(int id)
+        public async Task<object> DeleteProduct(int id)
         {
-            await _productRepository.DeleteProduct(id);
+            return await _productRepository.DeleteProduct(id);
         }
         public async Task<ProductModel> FillFormProduct(int id)
         {
@@ -25,9 +25,9 @@ namespace API.Services
         {
             return await _productRepository.GetProductList();
         }
-        public async Task SaveProduct(ProductModel product)
+        public async Task<object> SaveProduct(ProductModel product)
         {
-            await _productRepository.SaveProduct(product);
+            return await _productRepository.SaveProduct(product);
         }
     }
 }

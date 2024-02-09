@@ -17,7 +17,20 @@ let Buttons = {
             Forms.FillFormSupplier(0);
         });
         $('#buttonSave').click(function () {
-            Forms.SaveProduct();
+            var form = $('#productForm')[0];
+
+            if (form.checkValidity()) {
+                // If the form is valid, save the product and reset the form
+                event.preventDefault();
+                event.stopPropagation();
+                Forms.SaveProduct();
+                form.classList.remove('was-validated');
+            } else {
+                // If the form is invalid, add 'was-validated' class to apply Bootstrap validation styling
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated');
+            }
         });
         $('#buttonSaveCategory').click(function () {
             Forms.SaveCategory();
@@ -433,44 +446,19 @@ let Forms = {
         // Serialize the form data
         var formData = $('#productForm').serialize();
         // Show loading indicator
-        Swal.fire({
-            position: 'center',
-            icon: 'info',
-            title: 'Please wait',
-            text: 'Saving..',
-            showConfirmButton: false,
-            allowOutsideClick: false,
-
-        });
-        Swal.showLoading();
+        $('#buttonSave').prop('disabled', true); // Disable the button
+        $('#buttonSave .spinner-border').show(); // Show the spinner
         $.ajax({
             url: 'SaveProduct',
             type: 'POST',
             data: formData,
             success: function (result) {
-                console.log(result);
-                if (result.success) {
-                    // Close loading indicator
-                    Swal.close();
-                    Swal.hideLoading()
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: "Save Success",
-                        showConfirmButton: false,
-                        timer: 1500,
-                        allowOutsideClick: false
-                    }).then(() => {
-                        Forms.FillFormProduct(0);
-                    });
-                } else {
-                    $('#productBodyCard').html(result);
-                    Control.Category();
-                    Control.Unit();
-                    Control.Supplier();
-                    Buttons.Init();
-                    Swal.close();
-                }
+                toastr.options.onShown = function () { Forms.FillFormProduct(0); }
+
+                result.result.success ? toastr.success('Data saved') : toastr.error(result.result.error, 'Data not saved');
+                // Close loading indicator
+                $('#buttonSave').prop('disabled', false); // Enable the button
+                $('#buttonSave .spinner-border').hide(); // Hide the spinner
             },
             error: function (error) {
                 Swal.close();
@@ -483,7 +471,7 @@ let Control = {
         let id = '#comboBoxCategory';
         let data = Common.GetData.Get('GetCategoryList');
         $(id).html('');
-        $(id).append('<option selected value="' + 0 + '">' + 'Select category' + '</option>');
+        $(id).append('<option selected value="">' + 'Select category' + '</option>');
         if (data.result != null && data.result.length > 0) {
             $.each(data.result, function (i, item) {
                 if (categoryID == item.id) {
@@ -500,7 +488,7 @@ let Control = {
         let id = '#comboBoxUnit';
         let data = Common.GetData.Get('GetUnitList');
         $(id).html('');
-        $(id).append('<option selected value="' + 0 + '">' + 'Select unit' + '</option>');
+        $(id).append('<option selected value="">' + 'Select unit' + '</option>');
         if (data.result != null && data.result.length > 0) {
             $.each(data.result, function (i, item) {
                 if (unitID == item.id) {
@@ -515,7 +503,7 @@ let Control = {
         let id = '#comboBoxSupplier';
         let data = Common.GetData.Get('GetSupplierList');
         $(id).html('');
-        $(id).append('<option selected value="' + 0 + '">' + 'Select supplier' + '</option>');
+        $(id).append('<option selected value="">' + 'Select supplier' + '</option>');
         if (data.result != null && data.result.length > 0) {
             $.each(data.result, function (i, item) {
                 if (supplierID == item.id) {

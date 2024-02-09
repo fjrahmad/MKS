@@ -7,7 +7,10 @@
         <partial model="@Model" name="_FormProduct" />
     </div>
     <div class="card-footer">
-        <button type="button" id="buttonSave" class="btn btn-primary">Save</button>
+        <button type="button" id="buttonSave" class="btn btn-primary">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+            Save
+        </button>
         <a asp-action="Index" asp-controller="Product" class="btn btn-secondary">Cancel</a>
     </div>
 </div>

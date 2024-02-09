@@ -56,7 +56,7 @@ let Table = {
                 confirmButtonText: 'Yes, delete it',
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    return fetch(`DeleteProduct?id=${row.id}`, {
+                    return fetch(`/Product/DeleteProduct?id=${row.id}`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -64,20 +64,12 @@ let Table = {
                     })
                         .then(response => {
                             if (response.ok) {
-                                // Show success message
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: 'Success',
-                                    text: 'Product has been deleted',
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    allowOutsideClick: false
-                                }).then(() => {
-                                    Table.FillGrid();
-                                });
+
+                                toastr.options.onShown = function () { Table.FillGrid(); }
+                                response.ok ? toastr.success('Data has been deleted') : toastr.error('Failed to delete data');
                             }
                         })
+
                         .catch(error => {
                             Swal.showValidationMessage(`Request failed: ${error}`);
                         });

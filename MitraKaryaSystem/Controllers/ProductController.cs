@@ -51,25 +51,9 @@ namespace MitraKaryaSystem.Controllers
         {
             return await _supplierService.GetSupplierList();
         }
-        public async Task<IActionResult> SaveProduct(ProductViewModel product)
+        public async Task<JsonResult> SaveProduct(ProductViewModel product)
         {
-            try
-            {
-                var modelName = nameof(ProductModel); // Assuming "ProductModel" is the name of your model
-                var count = ModelState.Root.GetModelStateForProperty(modelName).Errors.Count;
-
-                if (count == 0)
-                {
-                    await _service.SaveProduct(product.ProductModel);
-                    return Json(new { success = true });
-                }
-                return PartialView("_FormProduct", product);
-
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, error = ex.Message });
-            }
+            return Json(await _service.SaveProduct(product.ProductModel));
         }
         public async Task<IActionResult> SaveCategory(CategoryModel category)
         {

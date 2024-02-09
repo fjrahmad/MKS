@@ -10,6 +10,6 @@ namespace MitraKaryaSystem.Models
         [Required(ErrorMessage = "Contact Person is required")]
         public string ContactPerson { get; set; }
         [Required(ErrorMessage = "Contact Number is required")]
-        public int ContactNumber { get; set; }
+        public string ContactNumber { get; set; }
     }
 }

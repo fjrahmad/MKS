@@ -10,7 +10,7 @@
         <label for="productName" class="form-label col-2">Name<span class="asterisk">*</span></label>
         <div class="col-9">
             <input type="text" asp-for="ProductModel.Name" id="productName" required class="form-control" />
-            <span asp-validation-for="ProductModel.Name" class="text-danger"></span>
+            <div class="invalid-feedback">Please enter a valid name.</div>
         </div>
     </div>
 
@@ -18,6 +18,7 @@
         <label for="textDescription" class="form-label col-2">Description</label>
         <div class="col-9">
             <input type="text" asp-for="ProductModel.Description" id="textDescription" required class="form-control" />
+            <div class="invalid-feedback">Please enter a valid description.</div>
         </div>
     </div>
 
@@ -25,15 +26,16 @@
         <label for="unitPrice" class="form-label col-2">Unit Price<span class="asterisk">*</span></label>
         <div class="col-9">
             <input type="number" asp-for="ProductModel.UnitPrice" id="unitPrice" required class="form-control" />
-            <span asp-validation-for="ProductModel.UnitPrice" class="text-danger"></span>
+            <div class="invalid-feedback">Please enter a valid unit price.</div>
         </div>
     </div>
 
     <div class="row mb-3">
         <label asp-for="ProductModel.SupplierID" class="form-label col-2">Supplier<span class="asterisk">*</span></label>
         <div class="col-9">
-            <select asp-for="ProductModel.SupplierID" id="comboBoxSupplier" required class="form-control"></select>
-            <span asp-validation-for="ProductModel.SupplierID" class="text-danger"></span>
+            <select asp-for="ProductModel.SupplierID" id="comboBoxSupplier" required class="form-control">
+            </select>
+            <div class="invalid-feedback">Please select a valid supplier.</div>
         </div>
         <div class="col-1">
             <button type="button" id="buttonAddSupplier" class="btn btn-primary">Add</button>
@@ -44,7 +46,7 @@
         <label asp-for="ProductModel.CategoryID" class="form-label col-2">Category<span class="asterisk">*</span></label>
         <div class="col-9">
             <select asp-for="ProductModel.CategoryID" id="comboBoxCategory" required class="form-control"></select>
-            <span asp-validation-for="ProductModel.CategoryID" class="text-danger"></span>
+            <div class="invalid-feedback">Please select a valid category.</div>
         </div>
         <div class="col-1">
             <button type="button" id="buttonAddCategory" class="btn btn-primary">Add</button>
@@ -55,13 +57,14 @@
         <label asp-for="ProductModel.UnitID" class="form-label col-2">Unit<span class="asterisk">*</span></label>
         <div class="col-9">
             <select required id="comboBoxUnit" asp-for="ProductModel.UnitID" class="form-control"></select>
-            <span asp-validation-for="ProductModel.UnitID" class="text-danger"></span>
+            <div class="invalid-feedback">Please select a valid unit.</div>
         </div>
         <div class="col-1">
             <button type="button" id="buttonAddUnit" class="btn btn-primary">Add</button>
         </div>
     </div>
 </form>
+
 
 <script>
     var categoryID = @Html.Raw(Json.Serialize(categoryID));
