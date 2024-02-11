@@ -57,7 +57,7 @@ public partial class MKSTableContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.ID).HasName("PK__Customer__3214EC279013386C");
+            entity.HasKey(e => e.ID).HasName("PK__Customer__3214EC2749991F2E");
 
             entity.ToTable("Customer");
 
@@ -76,6 +76,7 @@ public partial class MKSTableContext : DbContext
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(255);
+            entity.Property(e => e.Note).IsUnicode(false);
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -84,7 +85,7 @@ public partial class MKSTableContext : DbContext
 
         modelBuilder.Entity<Debt>(entity =>
         {
-            entity.HasKey(e => e.ID).HasName("PK__Debt__3214EC27DF075FF8");
+            entity.HasKey(e => e.ID).HasName("PK__Debt__3214EC276681F1D0");
 
             entity.ToTable("Debt");
 
@@ -136,9 +137,7 @@ public partial class MKSTableContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("date");
+            entity.Property(e => e.UpdatedAt).HasColumnType("date");
             entity.Property(e => e.UpdatedBy)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -146,7 +145,7 @@ public partial class MKSTableContext : DbContext
 
         modelBuilder.Entity<PurchaseOrderItem>(entity =>
         {
-            entity.HasKey(e => e.ID).HasName("PK__Purchase__3214EC27A4ADE210");
+            entity.HasKey(e => e.ID).HasName("PK__Purchase__3214EC27CE4CCA43");
 
             entity.ToTable("PurchaseOrderItem");
 
@@ -155,7 +154,7 @@ public partial class MKSTableContext : DbContext
 
         modelBuilder.Entity<PurchasePayment>(entity =>
         {
-            entity.HasKey(e => e.ID).HasName("PK__Purchase__3214EC2751753BB2");
+            entity.HasKey(e => e.ID).HasName("PK__Purchase__3214EC27DD0D7899");
 
             entity.ToTable("PurchasePayment");
 
@@ -175,7 +174,7 @@ public partial class MKSTableContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.ID).HasName("PK__Role__3214EC270179CC09");
+            entity.HasKey(e => e.ID).HasName("PK__Role__3214EC279D614674");
 
             entity.ToTable("Role");
 
@@ -189,21 +188,21 @@ public partial class MKSTableContext : DbContext
 
         modelBuilder.Entity<RolePermission>(entity =>
         {
-            entity.HasKey(e => e.ID).HasName("PK__RolePerm__3214EC27A917F0DF");
+            entity.HasKey(e => e.ID).HasName("PK__RolePerm__3214EC275EB51A9F");
 
             entity.ToTable("RolePermission");
         });
 
         modelBuilder.Entity<SalesOrderItem>(entity =>
         {
-            entity.HasKey(e => e.ID).HasName("PK__SalesOrd__3214EC27B544403B");
+            entity.HasKey(e => e.ID).HasName("PK__SalesOrd__3214EC2747411811");
 
             entity.ToTable("SalesOrderItem");
         });
 
         modelBuilder.Entity<Trade>(entity =>
         {
-            entity.HasKey(e => e.ID).HasName("PK__Trade__3214EC27A961B9C5");
+            entity.HasKey(e => e.ID).HasName("PK__Trade__3214EC27FD4B1195");
 
             entity.ToTable("Trade");
 
@@ -232,7 +231,7 @@ public partial class MKSTableContext : DbContext
 
         modelBuilder.Entity<Unit>(entity =>
         {
-            entity.HasKey(e => e.ID).HasName("PK__Unit__3214EC277B33FD90");
+            entity.HasKey(e => e.ID).HasName("PK__Unit__3214EC27E72A814A");
 
             entity.ToTable("Unit");
 

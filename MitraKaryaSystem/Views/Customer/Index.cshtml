@@ -1,0 +1,30 @@
+﻿@{
+	ViewData["Title"] = "Customer";
+}
+<div class="row">
+	<partial name="_Table" />
+
+</div>
+<div class="modal fade" id="customerModal" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color:#18864A">
+				<h5 class="modal-title text-white">Customer Information</h5>
+			</div>
+			<div class="modal-body" id="bodyModal">
+				<partial name="_CustomerModal" />
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="buttonClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" id="buttonSave" class="btn btn-primary">
+					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+					Save
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+@section Scripts {
+	<script src="~/js/Customer.js" asp-append-version="true"></script>
+	<script src="~/js/Common.js" asp-append-version="true"></script>
+}
