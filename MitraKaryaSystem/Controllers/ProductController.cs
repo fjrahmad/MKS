@@ -43,6 +43,10 @@ namespace MitraKaryaSystem.Controllers
 		{
 			return await _categoryService.GetCategoryList();
 		}
+		public async Task<object> GetSupplierList()
+		{
+			return await _supplierService.GetSupplierList();
+		}
 		public async Task<object> GetUnitList()
 		{
 			return await _unitService.GetUnitList();
@@ -122,12 +126,6 @@ namespace MitraKaryaSystem.Controllers
 				// Handle the exception, you might want to log it or return an error view
 				return View("Error");
 			}
-		}
-
-		public async Task<object> FillFormSupplier(int id)
-		{
-			var data = await _supplierService.FillFormSupplier(id);
-			return PartialView("_FormSupplier", data);
 		}
 	}
 }
