@@ -80,7 +80,6 @@ let Table = {
         let tb = tableID.DataTable();
         tableID.find('tbody').unbind();
         tableID.find('tbody').on('click', '.edit', function (e) {
-
             let row = tb.row($(this).parents('tr')).data();
             Forms.FillFormCategory(row.id);
         });
@@ -102,22 +101,12 @@ let Table = {
                         }
                     })
                         .then(response => {
-                            if (response.ok) {
-                                // Show success message
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: 'Success',
-                                    text: 'Category has been deleted',
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    allowOutsideClick: false
-                                }).then(() => {
-                                    Forms.FillFormCategory(0);
-                                    Table.FillGridCategory();
-                                    Control.Category();
-                                });
+                            toastr.options.onShown = function () {
+                                Forms.FillFormCategory(0);
+                                Table.FillGridCategory();
+                                Control.Category();
                             }
+                            response.ok ? toastr.success('Data has been deleted') : toastr.error(result.result.error, 'Data not deleted');
                         })
                         .catch(error => {
                             Swal.showValidationMessage(`Request failed: ${error}`);
@@ -263,20 +252,35 @@ let Forms = {
     },
     SaveCategory: function () {
         let formData = $('#formCategory').serialize();
+        // Show loading indicator
+        $('#buttonSaveCategory').prop('disabled', true); // Disable the button
+        $('#buttonCloseCategory').prop('disabled', true); // Disable the button
+
+        $('#buttonSaveCategory .spinner-border').show(); // Show the spinner
         $.ajax({
             url: 'SaveCategory',
             type: 'POST',
             data: formData,
             success: function (result) {
-                if (result.success) {
-                    // Successful response from the server
-                    Table.FillGridCategory();
-                    Forms.FillFormCategory(0);
-                    Control.Category();
+                if (result.result.success) {
+
                 } else {
                     $('#categoryBodyModal').html(result);
                     Table.FillGridCategory();
                 }
+                toastr.options.onShown = function () {
+                    // Successful response from the server
+                    Table.FillGridCategory();
+                    Forms.FillFormCategory(0);
+                    Control.Category();
+                }
+
+                result.result.success ? toastr.success('Data saved') : toastr.error(result.result.error, 'Data not saved');
+                // Close loading indicator
+                $('#buttonSaveCategory').prop('disabled', false); // Enable the button
+                $('#buttonCloseCategory').prop('disabled', false); // Disable the button
+
+                $('#buttonSaveCategory .spinner-border').hide(); // Hide the spinner
             },
             error: function (error) {
                 // Handle errors if needed

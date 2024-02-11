@@ -55,57 +55,32 @@ namespace MitraKaryaSystem.Controllers
 		{
 			return Json(await _service.SaveProduct(product.ProductModel));
 		}
-		public async Task<IActionResult> SaveCategory(CategoryModel category)
+		public async Task<JsonResult> SaveCategory(CategoryModel category)
 		{
-			try
-			{
-				if (ModelState.IsValid)
-				{
-					await _categoryService.SaveCategory(category);
-					return Json(new { success = true });
-				}
-				return PartialView("_TableCategory");
-			}
-			catch (Exception ex)
-			{
-				return Json(new { success = false, error = ex.Message });
-			}
+			return Json(await _categoryService.SaveCategory(category));
 		}
-		public async Task<IActionResult> SaveUnit(UnitModel unit)
+		public async Task<JsonResult> SaveUnit(UnitModel unit)
 		{
-			try
-			{
-				if (ModelState.IsValid)
-				{
-					await _unitService.SaveUnit(unit);
-					return Json(new { success = true });
-
-				}
-				return PartialView("_TableUnit");
-			}
-			catch (Exception ex)
-			{
-				return Json(new { success = false, error = ex.Message });
-			}
+			return Json(await _unitService.SaveUnit(unit));
 		}
-		public async Task DeleteProduct(int id)
+		public async Task<JsonResult> DeleteProduct(int id)
 		{
-			await _service.DeleteProduct(id);
+			return Json(await _service.DeleteProduct(id));
 		}
-		public async Task DeleteCategory(int id)
+		public async Task<JsonResult> DeleteCategory(int id)
 		{
-			await _categoryService.DeleteCategory(id);
+			return Json(await _categoryService.DeleteCategory(id));
 		}
-		public async Task DeleteUnit(int id)
+		public async Task<JsonResult> DeleteUnit(int id)
 		{
-			await _unitService.DeleteUnit(id);
+			return Json(await _unitService.DeleteUnit(id));
 		}
-		public async Task<object> FillFormCategory(int id)
+		public async Task<IActionResult> FillFormCategory(int id)
 		{
 			var data = await _categoryService.FillFormCategory(id);
 			return PartialView("_TableCategory", data);
 		}
-		public async Task<object> FillFormUnit(int id)
+		public async Task<IActionResult> FillFormUnit(int id)
 		{
 			var data = await _unitService.FillFormUnit(id);
 			return PartialView("_TableUnit", data);
