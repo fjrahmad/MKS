@@ -13,9 +13,6 @@ let Buttons = {
         $('#buttonAddUnit').click(function () {
             Forms.FillFormUnit(0);
         });
-        $('#buttonAddSupplier').click(function () {
-            Forms.FillFormSupplier(0);
-        });
         $('#buttonSave').click(function () {
             var form = $('#productForm')[0];
 
@@ -37,9 +34,6 @@ let Buttons = {
         });
         $('#buttonSaveUnit').click(function () {
             Forms.SaveUnit();
-        });
-        $('#buttonSaveSupplier').click(function () {
-            Forms.SaveSupplier();
         });
         $('#buttonNewCategory').click(function () {
             Forms.FillFormCategory(0);
@@ -219,94 +213,6 @@ let Table = {
             });
         });
     },
-    FillGridSupplier: function () {
-        let data = Common.GetData.Get('GetSupplierList');
-        let tableID = $("#tableSupplier");
-
-        $(tableID).DataTable({
-            "deferRender": true,
-            "processing": true,
-            "serverSide": false,
-            "destroy": true,
-            "filter": true,
-            "searching": false,
-            "responsive": true,
-            "columns": [
-                { "data": "supplierName" },
-                { "data": "contactPerson" },
-                { "data": "contactNumber" },
-                {
-                    data: null,
-                    render: function () {
-                        return `
-                    <a class="btn btn-warning edit" href="#">
-                        <i class="fa fa-pencil"></i> 
-                    </a>
-                    <span style="margin: 0 5px;"></span>
-                    <a class="btn btn-danger delete">
-                        <i class="fa fa-trash"></i> 
-                    </a>
-            `;
-                    },
-                    "orderable": false
-                },
-            ],
-            "buttons": [],
-            "dom": 'lBfrtip',
-            "columnDefs": [{ "targets": [0, 1, 2], "className": "text-left" }],
-
-            "data": data.result
-        });
-        let tb = tableID.DataTable();
-        tableID.find('tbody').unbind();
-        tableID.find('tbody').on('click', '.edit', function (e) {
-
-            let row = tb.row($(this).parents('tr')).data();
-            Forms.FillFormSupplier(row.id);
-        });
-        tableID.find('tbody').on('click', '.delete', function (e) {
-            let row = tb.row($(this).parents('tr')).data();
-            // Show a confirmation dialog
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it',
-                showLoaderOnConfirm: true,
-                preConfirm: () => {
-                    return fetch(`DeleteSupplier?id=${row.id}`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    })
-                        .then(response => {
-                            if (response.ok) {
-                                // Show success message
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: 'Success',
-                                    text: 'Supplier has been deleted',
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    allowOutsideClick: false
-                                }).then(() => {
-                                    Forms.FillFormSupplier(0);
-                                    Table.FillGridSupplier();
-                                    Control.Supplier();
-                                });
-                            }
-                        })
-                        .catch(error => {
-                            Swal.showValidationMessage(`Request failed: ${error}`);
-                        });
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            });
-        });
-    },
 }
 let Forms = {
     FillFormCategory: function (id) {
@@ -335,22 +241,6 @@ let Forms = {
                 $('#unitBodyModal').html(result);
                 Table.FillGridUnit();
                 $('#unitModal').modal('show');
-            },
-            error: function (error) {
-                // Handle errors if needed
-                console.error('Error loading user data:', error);
-            }
-        });
-    },
-    FillFormSupplier: function (id) {
-        $.ajax({
-            url: 'FillFormSupplier',
-            type: 'POST',
-            data: { id: id },
-            success: function (result) {
-                $('#supplierBodyModal').html(result);
-                Table.FillGridSupplier();
-                $('#supplierModal').modal('show');
             },
             error: function (error) {
                 // Handle errors if needed
@@ -409,30 +299,6 @@ let Forms = {
                 } else {
                     $('#unitBodyModal').html(result);
                     Table.FillGridUnit();
-                }
-
-            },
-            error: function (error) {
-                // Handle errors if needed
-                console.error('Error loading user data:', error);
-            }
-        });
-    },
-    SaveSupplier: function () {
-        let formData = $('#supplierForm').serialize();
-        $.ajax({
-            url: 'SaveSupplier',
-            type: 'POST',
-            data: formData,
-            success: function (result) {
-                if (result.success) {
-                    // Successful response from the server
-                    Table.FillGridSupplier();
-                    Forms.FillFormSupplier(0);
-                    Control.Supplier();
-                } else {
-                    $('#supplierBodyModal').html(result);
-                    Table.FillGridSupplier();
                 }
 
             },
