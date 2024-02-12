@@ -29,11 +29,37 @@ let Buttons = {
                 form.classList.add('was-validated');
             }
         });
-        $('#buttonSaveCategory').click(function () {
-            Forms.SaveCategory();
+        $('#buttonSaveCategory').click(function (event) {
+            let form = $('#formCategory')[0];
+
+            if (form.checkValidity()) {
+                // If the form is valid, save the product and reset the form
+                event.preventDefault();
+                event.stopPropagation();
+                Forms.SaveCategory();
+                form.classList.remove('was-validated');
+            } else {
+                // If the form is invalid, add 'was-validated' class to apply Bootstrap validation styling
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated');
+            }
         });
-        $('#buttonSaveUnit').click(function () {
-            Forms.SaveUnit();
+        $('#buttonSaveUnit').click(function (event) {
+            let form = $('#formUnit')[0];
+
+            if (form.checkValidity()) {
+                // If the form is valid, save the product and reset the form
+                event.preventDefault();
+                event.stopPropagation();
+                Forms.SaveUnit();
+                form.classList.remove('was-validated');
+            } else {
+                // If the form is invalid, add 'was-validated' class to apply Bootstrap validation styling
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated');
+            }
         });
         $('#buttonNewCategory').click(function () {
             Forms.FillFormCategory(0);
@@ -262,12 +288,6 @@ let Forms = {
             type: 'POST',
             data: formData,
             success: function (result) {
-                if (result.result.success) {
-
-                } else {
-                    $('#categoryBodyModal').html(result);
-                    Table.FillGridCategory();
-                }
                 toastr.options.onShown = function () {
                     // Successful response from the server
                     Table.FillGridCategory();
@@ -290,21 +310,28 @@ let Forms = {
     },
     SaveUnit: function () {
         let formData = $('#formUnit').serialize();
+        // Show loading indicator
+        $('#buttonSaveCategory').prop('disabled', true); // Disable the button
+        $('#buttonCloseCategory').prop('disabled', true); // Disable the button
+        $('#buttonSaveCategory .spinner-border').show(); // Show the spinner
+
         $.ajax({
             url: 'SaveUnit',
             type: 'POST',
             data: formData,
             success: function (result) {
-                if (result.success) {
+                toastr.options.onShown = function () {
                     // Successful response from the server
                     Table.FillGridUnit();
                     Forms.FillFormUnit(0);
                     Control.Unit();
-                } else {
-                    $('#unitBodyModal').html(result);
-                    Table.FillGridUnit();
                 }
+                result.result.success ? toastr.success('Data saved') : toastr.error(result.result.error, 'Data not saved');
+                // Close loading indicator
+                $('#buttonSaveCategory').prop('disabled', false); // Enable the button
+                $('#buttonCloseCategory').prop('disabled', false); // Disable the button
 
+                $('#buttonSaveCategory .spinner-border').hide(); // Hide the spinner
             },
             error: function (error) {
                 // Handle errors if needed
@@ -323,8 +350,9 @@ let Forms = {
             type: 'POST',
             data: formData,
             success: function (result) {
-                toastr.options.onShown = function () { Forms.FillFormProduct(0); }
-
+                toastr.options.onShown = function () {
+                    Forms.ResetProductForm();
+                }
                 result.result.success ? toastr.success('Data saved') : toastr.error(result.result.error, 'Data not saved');
                 // Close loading indicator
                 $('#buttonSave').prop('disabled', false); // Enable the button
@@ -335,6 +363,15 @@ let Forms = {
             }
         });
     },
+    ResetProductForm: function () {
+        $('#productForm :input').each(function () {
+            $(this).val(''); // Set the value of each input field to an empty string
+        });
+
+        // Remove the validation classes and messages
+        $('#productForm').removeClass('was-validated');
+        $('.invalid-feedback').hide();
+    }
 }
 let Control = {
     Category: function () {
@@ -349,7 +386,6 @@ let Control = {
                 }
                 else {
                     $(id).append('<option value="' + item.id + '">' + item.categoryName + '</option>');
-
                 }
             });
         }

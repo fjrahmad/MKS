@@ -15,10 +15,10 @@
         </div>
     </div>
 </div>
-<button type="button" id="buttonNewCategory" class="btn btn-warning">New Category</button>
+<button type="button" id="buttonNewCategory" class="btn btn-warning btn-sm">New Category</button>
 <br />
 <form id="formCategory">
     <input asp-for="@Model.ID" type="text" hidden />
-    <input type="text" class="form-control" asp-for="@Model.CategoryName" />
-    <span asp-validation-for="@Model.CategoryName" class="text-danger"></span>
+    <input type="text" class="form-control" required asp-for="@Model.CategoryName" />
+    <div class="invalid-feedback">Please enter a Category Name</div>
 </form>
