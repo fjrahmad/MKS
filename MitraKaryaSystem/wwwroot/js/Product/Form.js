@@ -3,7 +3,6 @@
     Control.Category();
     Control.Unit();
     Control.Supplier();
-    //Forms.FillFormProduct(0);
 });
 let Buttons = {
     Init: function () {
@@ -33,7 +32,7 @@ let Buttons = {
             let form = $('#formCategory')[0];
 
             if (form.checkValidity()) {
-                // If the form is valid, save the product and reset the form
+                // If the form is valid, save the category and reset the form
                 event.preventDefault();
                 event.stopPropagation();
                 Forms.SaveCategory();
@@ -49,7 +48,7 @@ let Buttons = {
             let form = $('#formUnit')[0];
 
             if (form.checkValidity()) {
-                // If the form is valid, save the product and reset the form
+                // If the form is valid, save the unit and reset the form
                 event.preventDefault();
                 event.stopPropagation();
                 Forms.SaveUnit();

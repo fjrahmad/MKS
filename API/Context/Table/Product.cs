@@ -30,4 +30,6 @@ public partial class Product
     public string UpdatedBy { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+
+    public string Barcode { get; set; }
 }

@@ -48,7 +48,8 @@ namespace API.Repository
                     Description = product.Description,
                     UnitPrice = product.UnitPrice,
                     StockQuantity = product.StockQuantity,
-                    SupplierID = product.SupplierID
+                    SupplierID = product.SupplierID,
+                    Barcode = product.Barcode
                 };
             }
             return productModel;
@@ -61,6 +62,10 @@ namespace API.Repository
         {
             try
             {
+                if (productModel.Barcode.Length > 50)
+                {
+                    return Task.FromResult<object>(new { success = false, error = "Barcode maximum is 50 length" });
+                }
                 if (productModel.ID == 0)
                 {
                     _context.Products.Add(new Product
@@ -73,6 +78,7 @@ namespace API.Repository
                         StockQuantity = productModel.StockQuantity,
                         SupplierID = productModel.SupplierID,
                         CreatedBy = AuthRepository.CurrentUser.FullName,
+                        Barcode = productModel.Barcode,
                         CreatedAt = DateTime.Now
                     });
                 }
@@ -87,6 +93,7 @@ namespace API.Repository
                     product.StockQuantity = productModel.StockQuantity;
                     product.SupplierID = productModel.SupplierID;
                     product.UpdatedBy = AuthRepository.CurrentUser.FullName;
+                    product.Barcode = productModel.Barcode;
                     product.UpdatedAt = DateTime.Now;
                     _context.Products.Update(product);
                 }
