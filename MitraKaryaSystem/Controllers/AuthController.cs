@@ -48,7 +48,7 @@ namespace MitraKaryaSystem.Controllers
                     // Create authentication properties as needed
                     var authenticationProperties = new AuthenticationProperties
                     {
-                        IsPersistent = true // You can set this based on your requirements
+                        IsPersistent = false // You can set this based on your requirements
                     };
 
                     // Create the authentication ticket
