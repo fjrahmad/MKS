@@ -2,7 +2,7 @@
     Table.FillGrid();
     Control.Init();
     Button.Init();
-
+    Control.Barcode();
 });
 let Button = {
     Init: function () {
@@ -76,6 +76,26 @@ let Table = {
 let Control = {
     Init: function () {
         $('.js-example-basic-single').select2();
+    },
+    Barcode: function () {
+        $('#productId').keypress(function (event) { // Added '#' to denote an ID selector
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                $.ajax({
+                    url: '/PurchaseOrder/ScanBarcode',
+                    type: 'POST',
+                    data: { barcode: $(this).val() },
+                    success: function (result) {
+                        Control.AddRow(result.name, 1, result.unitPrice, result.supplierID);
+                    },
+                    error: function (error) {
+                        // Handle errors if needed
+                        console.error('Error loading user data:', error);
+                    }
+                });
+
+            }
+        });
     },
     AddRow: function (product, quantity, unitPrice, supplierID, supplier) {
         let table = $("#tableProduct").DataTable();
