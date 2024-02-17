@@ -34,11 +34,8 @@ namespace API.Context.SP
 
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
-<<<<<<< Updated upstream
-=======
             modelBuilder.Entity<GetProductListResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspBarcodeScanResult>().HasNoKey().ToView(null);
->>>>>>> Stashed changes
             modelBuilder.Entity<uspGetPermissionListResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspGetProductComboListResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspGetUserPermissionListResult>().HasNoKey().ToView(null);
@@ -57,8 +54,6 @@ namespace API.Context.SP
             _context = context;
         }
 
-<<<<<<< Updated upstream
-=======
         public virtual async Task<List<GetProductListResult>> GetProductListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
@@ -106,7 +101,6 @@ namespace API.Context.SP
             return _;
         }
 
->>>>>>> Stashed changes
         public virtual async Task<List<uspGetPermissionListResult>> uspGetPermissionListAsync(int? RoleID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter

@@ -12,11 +12,8 @@ namespace API.Context.SP
 {
     public partial interface IMKSSPContextProcedures
     {
-<<<<<<< Updated upstream
-=======
         Task<List<GetProductListResult>> GetProductListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspBarcodeScanResult>> uspBarcodeScanAsync(string Barcode, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
->>>>>>> Stashed changes
         Task<List<uspGetPermissionListResult>> uspGetPermissionListAsync(int? RoleID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspGetProductComboListResult>> uspGetProductComboListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspGetUserPermissionListResult>> uspGetUserPermissionListAsync(string UserName, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);

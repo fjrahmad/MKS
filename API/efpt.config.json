@@ -1,12 +1,12 @@
 ﻿{
    "CodeGenerationMode": 3,
    "ContextClassName": "MKSSPContext",
-   "ContextNamespace": "",
+   "ContextNamespace": null,
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
    "ModelNamespace": null,
-   "OutputContextPath": "",
+   "OutputContextPath": null,
    "OutputPath": "Context\/SP",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "API",
@@ -16,50 +16,6 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-<<<<<<< Updated upstream
-         "Name": "[dbo].[Permission]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Product]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PurchaseOrderItem]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PurchasePayment]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Role]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[RolePermission]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[SalesOrderItem]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Trade]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Unit]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[UserRole]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Users]",
-         "ObjectType": 0
-=======
          "Name": "[dbo].[GetProductList]",
          "ObjectType": 1
       },
@@ -94,7 +50,6 @@
       {
          "Name": "[dbo].[uspUserUpdate]",
          "ObjectType": 1
->>>>>>> Stashed changes
       }
    ],
    "UiHint": "alveen.MKS.dbo",
