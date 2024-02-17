@@ -6,53 +6,73 @@ using MitraKaryaSystem.Models;
 
 namespace API.Repository
 {
-	public class PurchaseOrderRepository : IPurchaseOrderRepository
-	{
-		private readonly MKSTableContext _context;
-		private readonly MKSSPContextProcedures _procedure;
+    public class PurchaseOrderRepository : IPurchaseOrderRepository
+    {
+        private readonly MKSTableContext _context;
+        private readonly MKSSPContextProcedures _procedure;
 
-		public PurchaseOrderRepository(MKSTableContext context, MKSSPContextProcedures procedure)
-		{
-			_context = context;
-			_procedure = procedure;
-		}
-		public Task<Trade> FillForm(int id)
-		{
-			//PurchaseOrder purchaseOrder = await _context.PurchaseOrders.FindAsync(id);
-			//PurchaseOrderModel purchaseOrderModel = null;
-			//if(purchaseOrder == null)
-			//{
-			//    purchaseOrderModel = new PurchaseOrder();
-			//}else
-			//{
-			//    purchaseOrderModel = new PurchaseOrderModel
-			//    {
-			//        ID = purchaseOrder.ID,
-			//        No = purchaseOrder.PurchaseOrderNo,
-			//        SupplierID = purchaseOrder.SupplierID,
-			//        SupplierName = purchaseOrder.Supplier.Name,
-			//        Date = purchaseOrder.Date,
-			//        Total = purchaseOrder.Total,
-			//        Status = purchaseOrder.Status
-			//    };
-			//}
-			throw new NotImplementedException();
+        public PurchaseOrderRepository(MKSTableContext context, MKSSPContextProcedures procedure)
+        {
+            _context = context;
+            _procedure = procedure;
+        }
+        public async Task<PurchaseOrderModel> FillForm(int id)
+        {
+            Trade trade = await _context.Trades.FindAsync(id);
+            PurchaseOrderModel purchaseOrder = null;
+            if (trade == null)
+            {
+                purchaseOrder = new PurchaseOrderModel();
+            }
+            else
+            {
+                purchaseOrder = new PurchaseOrderModel
+                {
+                    ID = trade.ID,
+                    Date = trade.Date,
+                    StatusID = trade.StatusID,
+                    No = trade.No
+                };
+            }
+            return purchaseOrder;
+        }
 
-		}
-
-		public Task<List<Trade>> GetPurchaseOrderBySearch()
-		{
-			throw new NotImplementedException();
-		}
-
-		public async Task<object> ScanBarcode(string barcode)
-		{
+        public async Task<PurchaseOrderDetailModel> FillFormDetail(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            var purchaseOrderDetail = new PurchaseOrderDetailModel();
+            try
+            {
 			var product = await _context.Products.Where(x => x.Barcode == barcode).FirstOrDefaultAsync();
-			if (product == null)
-			{
-				return Task.FromResult<object>(new { success = false, result = "Barcode not found" });
-			}
-			return product;
-		}
-	}
+                if (product == null)
+                {
+                    return new PurchaseOrderDetailModel();
+                }
+                else
+                {
+                    purchaseOrderDetail = new PurchaseOrderDetailModel
+                    {
+                        ID = product.ID,
+                        SupplierID = product.SupplierID,
+                        Name = product.Name,
+                        UnitPrice = product.UnitPrice,
+                        Quantity = 1,
+                        Barcode = product.Barcode
+                    };
+                };
+            }
+            catch (Exception e)
+            {
+                await Task.FromResult<object>(new { success = false, result = e.Message });
+            }
+            return purchaseOrderDetail;
+        }
+
+        public Task<List<Trade>> GetPurchaseOrderBySearch()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<object> ScanBarcode(string barcode) => (await _procedure.uspBarcodeScanAsync(barcode)) == null ? await Task.FromResult<object>(new { success = false, result = "Barcode not found" }) : (await _procedure.uspBarcodeScanAsync(barcode)).FirstOrDefault();
+    }
 }

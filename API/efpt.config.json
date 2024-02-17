@@ -1,13 +1,13 @@
 ﻿{
    "CodeGenerationMode": 3,
-   "ContextClassName": "MKSTableContext",
+   "ContextClassName": "MKSSPContext",
    "ContextNamespace": "",
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
    "ModelNamespace": null,
-   "OutputContextPath": "Context\/Table",
-   "OutputPath": "Context\/Table",
+   "OutputContextPath": "",
+   "OutputPath": "Context\/SP",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "API",
    "Schemas": null,
@@ -16,22 +16,7 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[Category]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Customer]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Debt]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Lookup]",
-         "ObjectType": 0
-      },
-      {
+<<<<<<< Updated upstream
          "Name": "[dbo].[Permission]",
          "ObjectType": 0
       },
@@ -74,6 +59,42 @@
       {
          "Name": "[dbo].[Users]",
          "ObjectType": 0
+=======
+         "Name": "[dbo].[GetProductList]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[uspBarcodeScan]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[uspGetPermissionList]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[uspGetProductComboList]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[uspGetUserPermissionList]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[uspUserAdd]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[uspUserGet]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[uspUserLogin]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[uspUserUpdate]",
+         "ObjectType": 1
+>>>>>>> Stashed changes
       }
    ],
    "UiHint": "alveen.MKS.dbo",
@@ -94,6 +115,7 @@
    "UseNoObjectFilter": false,
    "UseNodaTime": false,
    "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
    "UseSchemaFolders": false,
    "UseSchemaNamespaces": false,
    "UseSpatial": false,

@@ -3,10 +3,11 @@ using MitraKaryaSystem.Models;
 
 namespace API.Repository.Interfaces
 {
-	public interface IPurchaseOrderRepository
-	{
-		Task<Trade> FillForm(int id);
-		Task<List<Trade>> GetPurchaseOrderBySearch();
-		Task<object> ScanBarcode(string barcode);
-	}
+    public interface IPurchaseOrderRepository
+    {
+        Task<PurchaseOrderModel> FillForm(int id);
+        Task<PurchaseOrderDetailModel> FillFormDetail(int id);
+        Task<List<Trade>> GetPurchaseOrderBySearch();
+        Task<object> ScanBarcode(string barcode);
+    }
 }

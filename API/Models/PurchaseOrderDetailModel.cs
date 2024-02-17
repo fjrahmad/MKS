@@ -1,16 +1,12 @@
 ﻿namespace MitraKaryaSystem.Models
 {
-    public class PurchaseOrderModel
+    public class PurchaseOrderDetailModel
     {
         public int ID { get; set; }
-
         public short SupplierID { get; set; }
-
-        public DateTime Date { get; set; } = DateTime.Now;
-
-        public short? StatusID { get; set; }
-        public string No { get; set; }
+        public string Name { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
+        public string Barcode { get; set; }
     }
 }
