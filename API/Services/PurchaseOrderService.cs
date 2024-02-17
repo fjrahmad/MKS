@@ -1,19 +1,37 @@
-﻿using API.Repository.Interfaces;
+﻿using API.Context.Table;
+using API.Repository.Interfaces;
 using API.Services.Interfaces;
+using MitraKaryaSystem.Models;
 
 namespace API.Services
 {
-	public class PurchaseOrderService : IPurchaseOrderService
-	{
-		private readonly IPurchaseOrderRepository _repository;
+    public class PurchaseOrderService : IPurchaseOrderService
+    {
+        private readonly IPurchaseOrderRepository _repository;
 
-		public PurchaseOrderService(IPurchaseOrderRepository repository)
-		{
-			_repository = repository;
-		}
-		public async Task<object> ScanBarcode(string barcode)
-		{
-			return await _repository.ScanBarcode(barcode);
-		}
-	}
+        public PurchaseOrderService(IPurchaseOrderRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task<PurchaseOrderModel> FillForm(int id)
+        {
+            return await _repository.FillForm(id);
+        }
+
+        public async Task<PurchaseOrderDetailModel> FillFormDetail(int id)
+        {
+            return await _repository.FillFormDetail(id);
+        }
+
+        public async Task<List<Trade>> GetPurchaseOrderBySearch()
+        {
+            return await _repository.GetPurchaseOrderBySearch();
+        }
+
+        public async Task<object> ScanBarcode(string barcode)
+        {
+            return await _repository.ScanBarcode(barcode);
+        }
+    }
 }

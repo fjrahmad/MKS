@@ -16,24 +16,8 @@
     </div>
     <div class="card-body">
         <div class="card">
-            <div class="card-body">
-                <form id="purchaseOrderForm">
-                    <div class="row mb-3">
-                        <label for="purchaseOrderNumber" class="form-label col-2">No<span class="asterisk">*</span></label>
-                        <div class="col-10">
-                            <input type="text" asp-for=No autofocus class="form-control" readonly id="purchaseOrderNumber" name="purchaseOrderNumber" placeholder="Purchase Order Number" required>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="purchaseOrderDate" class="form-label col-2">Date<span class="asterisk">*</span></label>
-                        <div class="col-10">
-                            <input type="date" asp-for=Date class="form-control col-2" id="purchaseOrderDate" name="purchaseOrderDate" placeholder="Purchase Order Date" required>
-                            <div class="invalid-feedback">
-                                Please provide a product.
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            <div class="card-body" id="purchaseOrderHeaderBody">
+                <partial name="_FormHeader" model="new PurchaseOrderModel()" />
             </div>
         </div>
         <div class="card">
@@ -59,29 +43,28 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label for="unitPrice" class="form-label col-2">Unit Price<span class="asterisk">*</span></label>
-                        <div class="col-10">
-                            <input type="number" class="form-control" id="unitPrice" readonly name="unitPrice" placeholder="Unit Price" required />
-                            <div class="invalid-feedback">
-                                Please provide a valid unit price.
-                            </div>
+            <div class="card-body" id="purchaseOrderDetailBody">
+                <div class="row mb-3">
+                    <label for="barcode" class="form-label col-2">Barcode</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" placeholder="Scan barcode / search here" id="barcode" autofocus />
+                        <div class="invalid-feedback">
+                            Please provide a barcode.
                         </div>
                     </div>
+                </div>
 
-                    <div class="row mb-3">
-                        <label for="supplierId" class="form-label col-2">Supplier<span class="asterisk">*</span></label>
-                        <div class="col-10">
-                            <select class="form-control js-example-basic-single" id="supplierId" name="supplierId" required>
-                                <option value="">Select Supplier</option>
-                                <option value="1">Supplier 1</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select a supplier.
-                            </div>
+                <div class="row mb-3">
+                    <label for="selectProduct" class="form-label col-2">Product<span class="asterisk">*</span></label>
+                    <div class="col-10">
+                        <select class="form-control js-example-basic-single" id="selectProduct">
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a product.
                         </div>
                     </div>
-                </form>
+                </div>
+                <partial name="_FormDetail" model="new PurchaseOrderDetailModel()" />
             </div>
             <div>
                 <div class="card-footer">
@@ -106,6 +89,7 @@
                 </tbody>
             </table>
         </div>
+        <partial name="_Table" />
     </div>
 
     <div class="card-footer">

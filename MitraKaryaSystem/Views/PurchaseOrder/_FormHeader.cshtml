@@ -1,0 +1,19 @@
+﻿@model PurchaseOrderModel
+
+<form id="purchaseOrderForm">
+    <div class="row mb-3">
+        <label for="purchaseOrderNumber" class="form-label col-2">No<span class="asterisk">*</span></label>
+        <div class="col-10">
+            <input type="text" asp-for=No autofocus class="form-control" readonly id="purchaseOrderNumber" name="purchaseOrderNumber" placeholder="Purchase Order Number" required>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="purchaseOrderDate" class="form-label col-2">Date<span class="asterisk">*</span></label>
+        <div class="col-10">
+            <input type="date" asp-for=Date class="form-control col-2" id="purchaseOrderDate" name="purchaseOrderDate" placeholder="Purchase Order Date" required>
+            <div class="invalid-feedback">
+                Please provide a product.
+            </div>
+        </div>
+    </div>
+</form>
