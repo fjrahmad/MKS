@@ -1,4 +1,5 @@
 ﻿using MitraKaryaSystem.Models;
+using System.Threading.Tasks;
 
 namespace API.Repository.Interfaces
 {
@@ -8,5 +9,6 @@ namespace API.Repository.Interfaces
         Task<object> SaveProduct(ProductModel product);
         Task<object> DeleteProduct(int id);
         Task<ProductModel> FillFormProduct(int id);
+        Task<object> GetProductComboList();
     }
 }

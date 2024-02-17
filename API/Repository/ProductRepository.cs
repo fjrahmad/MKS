@@ -10,10 +10,12 @@ namespace API.Repository
     {
         private readonly MKSTableContext _context;
         private readonly MKSSPContextProcedures _procedures;
-        public ProductRepository(MKSTableContext context, MKSSPContextProcedures procedures)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public ProductRepository(MKSTableContext context, MKSSPContextProcedures procedures, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _procedures = procedures;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<object> DeleteProduct(int id)
@@ -54,10 +56,9 @@ namespace API.Repository
             }
             return productModel;
         }
-        public async Task<object> GetProductList()
-        {
-            return Task.FromResult<object>(await _procedures.GetProductListAsync());
-        }
+        public async Task<object> GetProductList() => Task.FromResult<object>(await _procedures.GetProductListAsync());
+
+        public async Task<object> GetProductComboList() => Task.FromResult<object>(await _procedures.uspGetProductComboListAsync());
         public async Task<object> SaveProduct(ProductModel productModel)
         {
             try
@@ -77,7 +78,7 @@ namespace API.Repository
                         UnitPrice = productModel.UnitPrice,
                         StockQuantity = productModel.StockQuantity,
                         SupplierID = productModel.SupplierID,
-                        CreatedBy = AuthRepository.CurrentUser.FullName,
+                        CreatedBy = _httpContextAccessor.HttpContext.User.Identity.Name,
                         Barcode = productModel.Barcode,
                         CreatedAt = DateTime.Now
                     });
@@ -92,7 +93,7 @@ namespace API.Repository
                     product.UnitPrice = productModel.UnitPrice;
                     product.StockQuantity = productModel.StockQuantity;
                     product.SupplierID = productModel.SupplierID;
-                    product.UpdatedBy = AuthRepository.CurrentUser.FullName;
+                    product.UpdatedBy = _httpContextAccessor.HttpContext.User.Identity.Name;
                     product.Barcode = productModel.Barcode;
                     product.UpdatedAt = DateTime.Now;
                     _context.Products.Update(product);
