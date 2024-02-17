@@ -3,6 +3,8 @@ using API.Context.Table;
 using API.Models;
 using API.Repository.Interfaces;
 using API.Context.SP;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace API.Repository
 {
@@ -11,7 +13,6 @@ namespace API.Repository
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly MKSTableContext _db;
         private readonly MKSSPContextProcedures _sp;
-        public static CurrentUser CurrentUser { get; set; }
         public AuthRepository(MKSTableContext db, IHttpContextAccessor contextAccessor, MKSSPContextProcedures sp)
         {
             _httpContextAccessor = contextAccessor;
@@ -24,20 +25,30 @@ namespace API.Repository
             uspUserLoginResult? uspUserLogin = users.FirstOrDefault();
             var isLogin = users.Count > 0;
             if (isLogin)
-                CurrentUser = new CurrentUser
+            {
+                var claims = new[]
                 {
-                    UserName = uspUserLogin?.Username,
-                    FullName = uspUserLogin?.FullName,
-                    Email = uspUserLogin?.Email,
-                    PhoneNumber = uspUserLogin?.PhoneNumber,
-                    KTP = uspUserLogin?.KTP
+                            new Claim(ClaimTypes.Name, uspUserLogin?.Name),
+                            new Claim(ClaimTypes.Role, uspUserLogin?.RoleName),
                 };
-            return isLogin;
-        }
 
-        public async Task<CurrentUser> GetCurrentUser()
-        {
-            return await Task.FromResult(CurrentUser);
+                // Create the identity and principal
+                var identity = new ClaimsIdentity(claims, "AuthScheme");
+                var principal = new ClaimsPrincipal(identity);
+
+                // Create authentication properties as needed
+                var authenticationProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true // You can set this based on your requirements
+                };
+
+                // Create the authentication ticket
+                var ticket = new AuthenticationTicket(principal, "MKS");
+                // Sign in the user using the specified scheme
+                await _httpContextAccessor.HttpContext.SignInAsync("AuthScheme", principal, authenticationProperties);
+                AuthenticateResult.Success(ticket);
+            }
+            return isLogin;
         }
     }
 }
