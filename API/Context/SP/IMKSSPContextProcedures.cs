@@ -12,12 +12,17 @@ namespace API.Context.SP
 {
     public partial interface IMKSSPContextProcedures
     {
+<<<<<<< Updated upstream
+=======
         Task<List<GetProductListResult>> GetProductListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<uspBarcodeScanResult>> uspBarcodeScanAsync(string Barcode, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+>>>>>>> Stashed changes
         Task<List<uspGetPermissionListResult>> uspGetPermissionListAsync(int? RoleID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<uspGetProductComboListResult>> uspGetProductComboListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspGetUserPermissionListResult>> uspGetUserPermissionListAsync(string UserName, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<uspUserAddResult>> uspUserAddAsync(string FullName, string PhoneNumber, string Username, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<uspUserAddResult>> uspUserAddAsync(string Name, string PhoneNumber, string Username, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspUserGetResult>> uspUserGetAsync(int? ID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspUserLoginResult>> uspUserLoginAsync(string Username, string Password, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<int> uspUserUpdateAsync(int? ID, string FullName, string PhoneNumber, string Username, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<int> uspUserUpdateAsync(int? ID, string Name, string PhoneNumber, string Username, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
     }
 }

@@ -11,7 +11,7 @@ let Table = {
         // Define an array to store the checked checkbox values
         let columns = [
             { data: 'userName' },
-            { data: 'fullName' },
+            { data: 'name' },
             { data: 'email' },
             { data: 'ktp' },
             { data: 'active' },

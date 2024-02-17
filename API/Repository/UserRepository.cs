@@ -23,8 +23,7 @@ namespace API.Repository
             {
                 ID = x.ID,
                 UserName = x.UserName,
-                Password = x.Password,
-                FullName = x.FullName,
+                FullName = x.Name,
                 KTP = x.KTP,
                 Email = x.Email,
                 Active = x.Active ? "Active" : "Inactive"
@@ -60,7 +59,7 @@ namespace API.Repository
                     ID = user.ID,
                     UserName = user.Username,
                     Email = user.Email,
-                    FullName = user.FullName,
+                    FullName = user.Name,
                     KTP = user.KTP,
                     IsActive = user.Active,
                     PhoneNumber = user.PhoneNumber
