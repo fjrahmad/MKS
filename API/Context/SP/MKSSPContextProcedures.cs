@@ -34,7 +34,13 @@ namespace API.Context.SP
 
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
+<<<<<<< Updated upstream
+=======
+            modelBuilder.Entity<GetProductListResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<uspBarcodeScanResult>().HasNoKey().ToView(null);
+>>>>>>> Stashed changes
             modelBuilder.Entity<uspGetPermissionListResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<uspGetProductComboListResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspGetUserPermissionListResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspUserAddResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspUserGetResult>().HasNoKey().ToView(null);
@@ -51,6 +57,56 @@ namespace API.Context.SP
             _context = context;
         }
 
+<<<<<<< Updated upstream
+=======
+        public virtual async Task<List<GetProductListResult>> GetProductListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<GetProductListResult>("EXEC @returnValue = [dbo].[GetProductList]", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<uspBarcodeScanResult>> uspBarcodeScanAsync(string Barcode, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "Barcode",
+                    Size = 50,
+                    Value = Barcode ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<uspBarcodeScanResult>("EXEC @returnValue = [dbo].[uspBarcodeScan] @Barcode", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+>>>>>>> Stashed changes
         public virtual async Task<List<uspGetPermissionListResult>> uspGetPermissionListAsync(int? RoleID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
@@ -71,6 +127,26 @@ namespace API.Context.SP
                 parameterreturnValue,
             };
             var _ = await _context.SqlQueryAsync<uspGetPermissionListResult>("EXEC @returnValue = [dbo].[uspGetPermissionList] @RoleID", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<uspGetProductComboListResult>> uspGetProductComboListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<uspGetProductComboListResult>("EXEC @returnValue = [dbo].[uspGetProductComboList]", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
@@ -104,7 +180,7 @@ namespace API.Context.SP
             return _;
         }
 
-        public virtual async Task<List<uspUserAddResult>> uspUserAddAsync(string FullName, string PhoneNumber, string Username, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<uspUserAddResult>> uspUserAddAsync(string Name, string PhoneNumber, string Username, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -117,36 +193,36 @@ namespace API.Context.SP
             {
                 new SqlParameter
                 {
-                    ParameterName = "FullName",
-                    Size = 50,
-                    Value = FullName ?? Convert.DBNull,
+                    ParameterName = "Name",
+                    Size = -1,
+                    Value = Name ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "PhoneNumber",
-                    Size = 20,
+                    Size = -1,
                     Value = PhoneNumber ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "Username",
-                    Size = 20,
+                    Size = -1,
                     Value = Username ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "Email",
-                    Size = 50,
+                    Size = -1,
                     Value = Email ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "Password",
-                    Size = 20,
+                    Size = -1,
                     Value = Password ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
@@ -159,13 +235,13 @@ namespace API.Context.SP
                 new SqlParameter
                 {
                     ParameterName = "KTP",
-                    Size = 20,
+                    Size = -1,
                     Value = KTP ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<uspUserAddResult>("EXEC @returnValue = [dbo].[uspUserAdd] @FullName, @PhoneNumber, @Username, @Email, @Password, @Active, @KTP", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<uspUserAddResult>("EXEC @returnValue = [dbo].[uspUserAdd] @Name, @PhoneNumber, @Username, @Email, @Password, @Active, @KTP", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
@@ -232,7 +308,7 @@ namespace API.Context.SP
             return _;
         }
 
-        public virtual async Task<int> uspUserUpdateAsync(int? ID, string FullName, string PhoneNumber, string Username, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<int> uspUserUpdateAsync(int? ID, string Name, string PhoneNumber, string Username, string Email, string Password, bool? Active, string KTP, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -251,36 +327,36 @@ namespace API.Context.SP
                 },
                 new SqlParameter
                 {
-                    ParameterName = "FullName",
-                    Size = 50,
-                    Value = FullName ?? Convert.DBNull,
+                    ParameterName = "Name",
+                    Size = -1,
+                    Value = Name ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "PhoneNumber",
-                    Size = 20,
+                    Size = -1,
                     Value = PhoneNumber ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "Username",
-                    Size = 20,
+                    Size = -1,
                     Value = Username ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "Email",
-                    Size = 50,
+                    Size = -1,
                     Value = Email ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "Password",
-                    Size = 20,
+                    Size = -1,
                     Value = Password ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
@@ -293,13 +369,13 @@ namespace API.Context.SP
                 new SqlParameter
                 {
                     ParameterName = "KTP",
-                    Size = 20,
+                    Size = -1,
                     Value = KTP ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[uspUserUpdate] @ID, @FullName, @PhoneNumber, @Username, @Email, @Password, @Active, @KTP", sqlParameters, cancellationToken);
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[uspUserUpdate] @ID, @Name, @PhoneNumber, @Username, @Email, @Password, @Active, @KTP", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
