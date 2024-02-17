@@ -21,6 +21,11 @@ namespace API.Services
             return await _productRepository.FillFormProduct(id);
         }
 
+        public async Task<object> GetProductComboList()
+        {
+            return await _productRepository.GetProductComboList();
+        }
+
         public async Task<object> GetProductList()
         {
             return await _productRepository.GetProductList();
