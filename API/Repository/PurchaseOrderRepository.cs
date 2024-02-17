@@ -43,7 +43,6 @@ namespace API.Repository
             var purchaseOrderDetail = new PurchaseOrderDetailModel();
             try
             {
-			var product = await _context.Products.Where(x => x.Barcode == barcode).FirstOrDefaultAsync();
                 if (product == null)
                 {
                     return new PurchaseOrderDetailModel();

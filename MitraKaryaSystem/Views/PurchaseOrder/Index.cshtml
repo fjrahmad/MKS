@@ -1,5 +1,4 @@
-﻿@model PurchaseOrderModel
-@{
+﻿@{
     ViewData["Title"] = "Purchase Order";
 
 }
@@ -7,7 +6,6 @@
     <div class="card-header" style="background-color:#f0f0f0">
         <div class="card-title">
             <h5>Purchase Order</h5>
-
         </div>
         <div class="card-tools">
             <button type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
@@ -21,27 +19,6 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-body">
-                <form id="purchaseOrderDetailForm" class="needs-validation" novalidate>
-                    <div class="row mb-3">
-                        <label for="productId" class="form-label col-2">Product<span class="asterisk">*</span></label>
-                        <div class="col-10">
-                            <input type="text" class="form-control" placeholder="Scan barcode / search here" id="productId" name="productId" autofocus required />
-                            <div class="invalid-feedback">
-                                Please provide a product.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="quantity" class="form-label col-2">Quantity<span class="asterisk">*</span></label>
-                        <div class="col-10">
-                            <input type="number" class="form-control" id="quantity" min="1" name="quantity" placeholder="Quantity" required />
-                            <div class="invalid-feedback">
-                                Please provide a valid quantity.
-                            </div>
-                        </div>
-                    </div>
 
             <div class="card-body" id="purchaseOrderDetailBody">
                 <div class="row mb-3">
@@ -53,7 +30,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row mb-3">
                     <label for="selectProduct" class="form-label col-2">Product<span class="asterisk">*</span></label>
                     <div class="col-10">
@@ -72,26 +48,8 @@
                 </div>
             </div>
         </div>
-
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" cellpadding="0" cellspacing="0" style="text-align:center" width="100%" id="tableProduct">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th hidden>SupplierID</th>
-                        <th>Supplier</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
         <partial name="_Table" />
     </div>
-
     <div class="card-footer">
         <button type="submit" class="btn btn-primary" id="buttonSave">Save</button>
         <button type="button" class="btn btn-secondary" id="buttonCancel">Cancel</button>

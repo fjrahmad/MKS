@@ -2,7 +2,6 @@
     Table.FillGrid();
     Control.Init();
     Button.Init();
-    Control.Barcode();
 });
 let Button = {
     Init: function () {
@@ -75,9 +74,6 @@ let Table = {
                 data: null,
                 render: function () {
                     return `
-                    <a class="btn btn-warning edit" href="#">
-                        <i class="fa fa-pencil"></i> 
-                    </a>
                 <span style="margin: 0 5px;"></span>
                 <a class="btn btn-danger delete">
                     <i class="fa fa-trash"></i> 
@@ -163,9 +159,7 @@ let Control = {
                     console.error('Error loading user data:', error);
                 }
             });
-
         }
-        });
     },
     AddRow: function (productID, productName, quantity, unitPrice, barcode, supplierID, supplier) {
         let table = $("#tableProduct").DataTable();

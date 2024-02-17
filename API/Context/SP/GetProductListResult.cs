@@ -18,6 +18,7 @@ namespace API.Context.SP
         public decimal UnitPrice { get; set; }
         public int StockQuantity { get; set; }
         public short SupplierID { get; set; }
+        public string Barcode { get; set; }
         public string SupplierName { get; set; }
     }
 }
