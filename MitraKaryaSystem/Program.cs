@@ -6,7 +6,6 @@ using API.Services;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using MitraKaryaSystem.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,7 +70,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthentication();
-app.UseAuthenticationMiddleware();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
