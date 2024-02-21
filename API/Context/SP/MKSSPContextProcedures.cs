@@ -34,11 +34,10 @@ namespace API.Context.SP
 
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
-<<<<<<< Updated upstream
-=======
             modelBuilder.Entity<GetProductListResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspBarcodeScanResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspGenerateNoResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<uspGetDetailListByIdResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspGetPermissionListResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspGetProductComboListResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<uspGetUserPermissionListResult>().HasNoKey().ToView(null);
@@ -57,8 +56,6 @@ namespace API.Context.SP
             _context = context;
         }
 
-<<<<<<< Updated upstream
-=======
         public virtual async Task<List<GetProductListResult>> GetProductListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
@@ -127,6 +124,32 @@ namespace API.Context.SP
                 parameterreturnValue,
             };
             var _ = await _context.SqlQueryAsync<uspGenerateNoResult>("EXEC @returnValue = [dbo].[uspGenerateNo] @TradeTypePrefix", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<uspGetDetailListByIdResult>> uspGetDetailListByIdAsync(int? TradeID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "TradeID",
+                    Value = TradeID ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<uspGetDetailListByIdResult>("EXEC @returnValue = [dbo].[uspGetDetailListById] @TradeID", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

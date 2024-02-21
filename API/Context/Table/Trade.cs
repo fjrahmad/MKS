@@ -15,13 +15,13 @@ public partial class Trade
 
     public int? CustomerID { get; set; }
 
-    public short TradeType { get; set; }
+    public short TradeTypeID { get; set; }
 
     public decimal Amount { get; set; }
 
-    public DateTime CreatedBy { get; set; }
+    public string CreatedBy { get; set; }
 
-    public string CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public string UpdatedBy { get; set; }
 

@@ -5,13 +5,11 @@ using System.Collections.Generic;
 
 namespace API.Context.Table;
 
-public partial class PurchaseOrderItem
+public partial class TradeType
 {
     public int ID { get; set; }
 
-    public int? TradeID { get; set; }
+    public string No { get; set; }
 
-    public int? ProductID { get; set; }
-
-    public int Quantity { get; set; }
+    public string Name { get; set; }
 }
