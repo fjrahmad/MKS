@@ -15,15 +15,14 @@ namespace API.Services
             _context = context;
         }
 
-        public Task DeleteUser(int id)
+        public async Task<object> DeleteUser(int id)
         {
-            return _userRepository.DeleteUser(id);
+            return await _userRepository.DeleteUser(id);
         }
 
         public async Task<UserModel> FillForm(int id)
         {
             return await _userRepository.FillForm(id);
-
         }
 
         public async Task<object> GetUserList()
@@ -31,9 +30,9 @@ namespace API.Services
             return await _userRepository.GetUserList();
         }
 
-        public async Task SaveUser(UserModel user)
+        public async Task<object> SaveUser(UserModel user)
         {
-            await _userRepository.SaveUser(user);
+            return await _userRepository.SaveUser(user);
         }
     }
 }

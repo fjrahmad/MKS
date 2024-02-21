@@ -5,9 +5,8 @@
 
     <div class="form-group">
         <label asp-for="@Model.UserName" class="form-label">User Name</label>
-        <input asp-for="@Model.UserName" id="UserName" autocomplete="off" class="form-control" aria-required="true" />
-        <span asp-validation-for="@Model.UserName" class="text-danger"></span>
-
+        <input asp-for="@Model.UserName" id="UserName" autocomplete="off" required class="form-control" aria-required="true" />
+        <div class="invalid-feedback">Please enter a user name.</div>
     </div>
     @if (Model != null)
     {
@@ -16,32 +15,32 @@
         {
             <div class="form-group">
                 <label asp-for="@Model.Password" class="form-label">Password</label>
-                <input asp-for="@Model.Password" id="Password" autocomplete="off" type="password" class="form-control" aria-required="true" />
-                <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                <input asp-for="@Model.Password" id="Password" autocomplete="off" required type="password" class="form-control" aria-required="true" />
+                <div class="invalid-feedback">Please enter a password.</div>
             </div>
         }
     }
     <div class="form-group">
         <label asp-for="@Model.Email" class="form-label">Email</label>
-        <input asp-for="@Model.Email" id="Email" type="email" class="form-control" aria-required="true" />
-        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+        <input asp-for="@Model.Email" id="Email" type="email" class="form-control" required aria-required="true" />
+        <div class="invalid-feedback">Please enter a valid email address.</div>
     </div>
     <div class="form-group">
-        <label asp-for="@Model.FullName" class="form-label">Full Name</label>
-        <input asp-for="@Model.FullName" id="FullName" autocomplete="off" class="form-control" aria-required="true" />
-        <span asp-validation-for="@Model.FullName" class="text-danger"></span>
+        <label asp-for="@Model.Name" class="form-label">Full Name</label>
+        <input asp-for="@Model.Name" id="FullName" autocomplete="off" class="form-control" required aria-required="true" />
+        <div class="invalid-feedback">Please enter a full name.</div>
 
     </div>
     <div class="form-group">
         <label asp-for="@Model.PhoneNumber" class="form-label">Phone Number</label>
-        <input asp-for="@Model.PhoneNumber" id="PhoneNumber" autocomplete="off" class="form-control" aria-required="true" />
-        <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+        <input asp-for="@Model.PhoneNumber" id="PhoneNumber" autocomplete="off" class="form-control" required aria-required="true" />
+        <div class="invalid-feedback">Please enter a phone number.</div>
 
     </div>
     <div class="form-group">
         <label asp-for="@Model.KTP" class="form-label">KTP</label>
-        <input asp-for="@Model.KTP" id="KTP" class="form-control" aria-required="true" />
-        <span asp-validation-for="@Model.KTP" class="text-danger"></span>
+        <input asp-for="@Model.KTP" id="KTP" class="form-control" aria-required="true" required />
+        <div class="invalid-feedback">Please enter a KTP.</div>
     </div>
     <div class="row">
         <div class="col-1">
