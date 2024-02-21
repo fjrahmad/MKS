@@ -24,9 +24,24 @@ namespace API.Services
             return await _repository.FillFormDetail(id);
         }
 
+        public async Task<List<PurchaseOrderDetailModel>> GetDetailListById(int id)
+        {
+            return await _repository.GetDetailListById(id);
+        }
+
         public async Task<List<Trade>> GetPurchaseOrderBySearch()
         {
             return await _repository.GetPurchaseOrderBySearch();
+        }
+
+        public async Task<List<Trade>> GetTradeList()
+        {
+            return await _repository.GetTradeList();
+        }
+
+        public async Task<object> Save(PurchaseOrderModel purchaseOrderModel)
+        {
+            return await _repository.Save(purchaseOrderModel);
         }
 
         public async Task<object> ScanBarcode(string barcode)
