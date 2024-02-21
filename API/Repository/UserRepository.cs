@@ -23,7 +23,7 @@ namespace API.Repository
             {
                 ID = x.ID,
                 UserName = x.UserName,
-                FullName = x.Name,
+                Name = x.Name,
                 KTP = x.KTP,
                 Email = x.Email,
                 Active = x.Active ? "Active" : "Inactive"
@@ -31,17 +31,25 @@ namespace API.Repository
         .ToListAsync();
         }
 
-        public async Task SaveUser(UserModel user)
+        public async Task<object> SaveUser(UserModel user)
         {
-            if (user.ID == 0)
+            try
             {
-                await _sp.uspUserAddAsync(user.FullName, user.PhoneNumber, user.UserName, user.Email, user.Password, user.IsActive, user.KTP);
+                if (user.ID == 0)
+                {
+                    await _sp.uspUserAddAsync(user.Name, user.PhoneNumber, user.UserName, user.Email, user.Password, user.IsActive, user.KTP);
+                }
+                else
+                {
+                    await _sp.uspUserUpdateAsync(user.ID, user.Name, user.PhoneNumber, user.UserName, user.Email, user.Password, user.IsActive, user.KTP);
+                }
+                await _context.SaveChangesAsync();
             }
-            else
+            catch (Exception e)
             {
-                await _sp.uspUserUpdateAsync(user.ID, user.FullName, user.PhoneNumber, user.UserName, user.Email, user.Password, user.IsActive, user.KTP);
+                return Task.FromResult<object>(new { success = false, error = e.Message });
             }
-            await _context.SaveChangesAsync();
+            return Task.FromResult<object>(new { success = true });
         }
         public async Task<UserModel> FillForm(int id)
         {
@@ -59,7 +67,7 @@ namespace API.Repository
                     ID = user.ID,
                     UserName = user.Username,
                     Email = user.Email,
-                    FullName = user.Name,
+                    Name = user.Name,
                     KTP = user.KTP,
                     IsActive = user.Active,
                     PhoneNumber = user.PhoneNumber
@@ -68,12 +76,19 @@ namespace API.Repository
             return userModel;
         }
 
-        public async Task DeleteUser(int id)
+        public async Task<object> DeleteUser(int id)
         {
-            User user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
+            try
+            {
+                User user = await _context.Users.FindAsync(id);
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return Task.FromResult<object>(new { success = false, error = e.Message });
+            }
+            return Task.FromResult<object>(new { success = true });
         }
     }
 }

@@ -239,9 +239,20 @@ let Buttons = {
             Forms.FillForm(0);
         });
         $('#buttonSave').click(function () {
-            Forms.Save();
+            var form = $('#userForm')[0];
+            if (form.checkValidity()) {
+                // If the form is valid, save the product and reset the form
+                event.preventDefault();
+                event.stopPropagation();
+                Forms.Save();
+                form.classList.remove('was-validated');
+            } else {
+                // If the form is invalid, add 'was-validated' class to apply Bootstrap validation styling
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated');
+            }
         });
-
     }
 }
 
@@ -249,44 +260,23 @@ let Forms = {
     Save: function () {
         // Serialize the form data
         var formData = $('#userForm').serialize();
-        Swal.fire({
-            position: 'center',
-            icon: 'info',
-            title: 'Please wait',
-            text: 'Saving..',
-            showConfirmButton: false,
-            allowOutsideClick: false,
-
-        });
-        Swal.showLoading();
+        // Show loading indicator
+        $('#buttonSave').prop('disabled', true); // Disable the button
+        $('#buttonSave .spinner-border').show(); // Show the spinner
         $.ajax({
             url: 'SaveUser',
             type: 'POST',
             data: formData,
             success: function (result) {
-                if (result.success) {
-                    // Close loading indicator
-                    Swal.close();
-                    Swal.hideLoading()
-                    // Close the modal
+                toastr.options.onShown = function () {
+                    Table.FillGrid();
                     $('#userModal').modal('hide');
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: "Save Success",
-                        showConfirmButton: false,
-                        timer: 1500,
-                        allowOutsideClick: false
-                    }).then(() => {
-                        Table.FillGrid();
-                    });
-                } else {
-                    console.error('Saving failed:', result);
-                    // Update the modal body with the returned HTML (validation errors)
-                    $('#bodyModal').html(result);
-                    // Close loading indicator
-                    Swal.close();
                 }
+                result.result.success ? toastr.success('Data saved') : toastr.error(result.result.error, 'Data not saved');
+
+                // Close loading indicator
+                $('#buttonSave').prop('disabled', false); // Enable the button
+                $('#buttonSave .spinner-border').hide(); // Hide the spinner
             },
             error: function (error) {
                 // Show error message
