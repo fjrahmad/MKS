@@ -1,4 +1,5 @@
-﻿using API.Services;
+﻿using API.Context.Table;
+using API.Services;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MitraKaryaSystem.Models;
@@ -39,6 +40,18 @@ namespace MitraKaryaSystem.Controllers
             try
             {
                 return PartialView("_FormHeader", await _purchaseOrderService.FillForm(id));
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, error = e.Message });
+            }
+        }
+
+        public async Task<JsonResult> Save(PurchaseOrderModel purchaseOrder)
+        {
+            try
+            {
+                return Json(await _purchaseOrderService.Save(purchaseOrder));
             }
             catch (Exception e)
             {

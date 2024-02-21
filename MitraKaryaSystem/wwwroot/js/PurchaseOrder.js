@@ -2,6 +2,7 @@
     Table.FillGrid();
     Control.Init();
     Button.Init();
+    Form.FillForm(0);
 });
 let Button = {
     Init: function () {
@@ -45,8 +46,16 @@ let Button = {
             Form.ResetProductForm();
         });
         $('#buttonSave').click(function (event) {
-
-
+            event.preventDefault();
+            let table = $('#tableProduct').DataTable();
+            if (table.rows().count() <= 0) {
+                toastr.info('Insert at least 1 product', "Cannot save");
+                return;
+            }
+            Form.Save();
+        });
+        $('#buttonAdd').click(function (event) {
+            Form.FillForm(0);
         });
     }
 }
@@ -217,34 +226,69 @@ let Form = {
         $('#barcode').val('');
         $('#selectProduct').val('');
         $('#selectProduct').trigger('change');
-        // Remove the validation classes and messages
-        $('#purchaseOrderDetailForm').removeClass('was-validated');
-        $('.invalid-feedback').hide();
+        var selectedProduct = $('#selectProduct');
+        var quantityInput = $('#quantity');
+        quantityInput.removeClass('is-invalid');
+        selectedProduct.removeClass('is-invalid');
+
     },
     Save: function () {
-        // Serialize the form data
+        // Serialize the form data from #purchaseOrderDetailForm
         var formData = $('#purchaseOrderDetailForm').serialize();
+        // Create an object to store the form data and detail data
+        var postData = {
+            formData: formData, // Change this to formData
+            PurchaseOrderDetails: []
+        };
+        // Iterate over each row in the DataTable and extract productID and quantity
+        $('#tableProduct tbody tr').each(function (index) {
+            var table = $('#tableProduct').DataTable(); // Get the DataTable instance
+            var rowData = table.row(index).data(); // Get the data for the current row
+            var productID = rowData.productID;
+            var quantity = rowData.quantity;
+            var id = rowData.id == undefined ? 0 : rowData.id;
+            if (productID && quantity) { // Check if both productID and quantity exist
+                // Push an object containing productID and quantity to the detailData array
+                postData.PurchaseOrderDetails.push({ productID: productID, quantity: quantity, ID: id });
+            }
+        });
+
         // Show loading indicator
         $('#buttonSave').prop('disabled', true); // Disable the button
         $('#buttonSave .spinner-border').show(); // Show the spinner
         $.ajax({
-            url: 'SaveProduct',
+            url: '/PurchaseOrder/Save',
             type: 'POST',
-            data: formData,
+            data: postData,
             success: function (result) {
                 toastr.options.onShown = function () {
-                    Forms.ResetProductForm();
+                    Form.ResetProductForm();
+                    Table.FillGrid();
                 }
-                result.result.success ? toastr.success('Data saved') : toastr.error(result.result.error, 'Data not saved');
+                result.success ? toastr.success('Data saved') : toastr.error(result.result.error, 'Data not saved');
                 // Close loading indicator
                 $('#buttonSave').prop('disabled', false); // Enable the button
                 $('#buttonSave .spinner-border').hide(); // Hide the spinner
             },
             error: function (error) {
-                Swal.close();
+                toastr.error(error, 'Data not saved');
             }
         });
 
 
+    },
+    FillForm: function (id) {
+        $.ajax({
+            url: '/PurchaseOrder/FillForm',
+            type: 'POST',
+            data: { id: id },
+            success: function (result) {
+                $('#purchaseOrderHeaderBody').html(result);
+            },
+            error: function (error) {
+                // Handle errors if needed
+                console.error('Error loading user data:', error);
+            }
+        });
     }
 }
