@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    Table.FillGrid();
     Control.Init();
     Button.Init();
     Form.FillForm(0);
@@ -54,14 +53,19 @@ let Button = {
             }
             Form.Save();
         });
-        $('#buttonAdd').click(function (event) {
+        $('#buttonNew').click(function (event) {
             Form.FillForm(0);
+        });
+        $('#buttonSearch').click(function (event) {
+            $('#searchModal').show();
         });
     }
 }
 let Table = {
     FillGrid: function () {
         let tableID = $("#tableProduct");
+        // Clear the existing data from the DataTable
+        tableID.DataTable().clear().draw();
         //let data = Common.GetData.Get('FillGridRole');
         let columns = [
             { data: 'productID', visible: false },
@@ -107,6 +111,49 @@ let Table = {
             let rowIndex = table.cell($(this).closest('td')).index().row;
             let newData = parseInt($(this).val());
             table.cell(rowIndex, 2).data(newData).draw();
+        });
+    },
+    FillGrid: function () {
+        let tableID = $("#tableSearch");
+        //let data = Common.GetData.Get('FillGridRole');
+        let columns = [
+            { data: 'productID', visible: false },
+            { data: 'product' },
+            {
+                data: 'quantity',
+                render: function (data, type, row) {
+                    if (type === 'display') {
+                        return `<input type="number" class="form-control" value="${data}" min="1" />`;
+                    }
+                    return data;
+                }
+            },
+            { data: 'unitPrice' },
+            { data: 'supplierID', visible: false },
+            { data: 'barcode', visible: false },
+            { data: 'supplier' },
+            {
+                data: null,
+                render: function () {
+                    return `
+                <span style="margin: 0 5px;"></span>
+                <a class="btn btn-danger delete">
+                    <i class="fa fa-trash"></i> 
+                </a>
+            `;
+                },
+                "orderable": false
+            },
+        ];
+        let table = tableID.DataTable({
+            "deferRender": true,
+            "processing": true,
+            "serverSide": false,
+            "destroy": true,
+            "filter": true,
+            "searching": false,
+            "responsive": true,
+            "columns": columns
         });
     }
 }
@@ -274,8 +321,6 @@ let Form = {
                 toastr.error(error, 'Data not saved');
             }
         });
-
-
     },
     FillForm: function (id) {
         $.ajax({
@@ -284,6 +329,7 @@ let Form = {
             data: { id: id },
             success: function (result) {
                 $('#purchaseOrderHeaderBody').html(result);
+                Table.FillGrid();
             },
             error: function (error) {
                 // Handle errors if needed
