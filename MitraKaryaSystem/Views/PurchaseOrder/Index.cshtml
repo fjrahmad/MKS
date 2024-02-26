@@ -8,7 +8,7 @@
             <h5>Purchase Order</h5>
         </div>
         <div class="card-tools">
-            <button type="button" id="buttonAdd" class="btn btn-primary btn-sm"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
+            <button type="button" id="buttonNew" class="btn btn-primary btn-sm"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
             <button type="button" id="buttonSearch" class="btn btn-warning btn-sm"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
         </div>
     </div>
@@ -53,6 +53,25 @@
     <div class="card-footer">
         <button type="submit" class="btn btn-primary" id="buttonSave">Save</button>
         <button type="button" class="btn btn-secondary" id="buttonCancel">Cancel</button>
+    </div>
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog  modal-xl">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#18864A">
+                    <h5 class="modal-title text-white">Purchase Order Information</h5>
+                </div>
+                <div class="modal-body" id="unitBodyModal">
+                    <partial model=@Model.UnitModel name="_TableSearch" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="buttonCloseUnit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="buttonSaveUnit" class="btn btn-primary">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
