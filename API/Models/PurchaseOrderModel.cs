@@ -3,7 +3,6 @@
     public class PurchaseOrderModel
     {
         public int ID { get; set; }
-        public int TradeID { get; set; }
 
         public DateTime Date { get; set; } = DateTime.Now;
 

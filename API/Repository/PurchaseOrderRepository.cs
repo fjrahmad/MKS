@@ -37,7 +37,25 @@ namespace API.Repository
             }
             return purchaseOrder;
         }
+        public async Task<object> DeleteProductById(int id)
+        {
+            try
+            {
 
+                var product = await _context.PurchaseOrderItems.FindAsync(id);
+                if (product == null)
+                {
+                    return new { success = false, result = "Purchase order item not found." };
+                }
+                _context.PurchaseOrderItems.Remove(product);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                await Task.FromResult<object>(new { success = false, result = e.Message });
+            }
+            return new { success = true };
+        }
         public async Task<PurchaseOrderDetailModel> FillFormDetail(int id)
         {
             var product = await _context.Products.FindAsync(id);
@@ -63,13 +81,20 @@ namespace API.Repository
             }
             return purchaseOrderDetail;
         }
-        public Task<List<Trade>> GetTradeList() => _context.Trades.ToListAsync();
-        public Task<List<PurchaseOrderDetailModel>> GetDetailListById(int id) => _context.PurchaseOrderItems.Where(x => x.TradeID == id).Select(x => new PurchaseOrderDetailModel
+        public async Task<object> GetTradeList()
         {
-            ID = x.ID,
-            ProductID = x.ProductID,
-            Quantity = x.Quantity
-        }).ToListAsync();
+            return await _context.Trades.Select(x => new
+            {
+                ID = x.ID,
+                No = x.No,
+                Date = x.Date.ToString("dd-MM-yyyy"),
+                Amount = x.Amount,
+            }).ToListAsync();
+        }
+        public Task<List<uspGetDetailListByIdResult>> GetDetailListById(int id)
+        {
+            return _procedure.uspGetDetailListByIdAsync(id);
+        }
         public Task<List<Trade>> GetPurchaseOrderBySearch()
         {
             throw new NotImplementedException();
@@ -95,11 +120,10 @@ namespace API.Repository
                 }
                 else
                 {
-                    var existingTrade = await _context.Trades.FindAsync(purchaseOrderModel.TradeID);
+                    var existingTrade = await _context.Trades.FindAsync(purchaseOrderModel.ID);
                     if (existingTrade != null)
                     {
                         existingTrade.Date = purchaseOrderModel.Date;
-                        existingTrade.StatusID = purchaseOrderModel.StatusID;
                         existingTrade.UpdatedBy = _httpContextAccessor.HttpContext.User.Identity.Name;
                         existingTrade.UpdatedAt = DateTime.Now;
                         await _context.SaveChangesAsync();
@@ -109,10 +133,11 @@ namespace API.Repository
                         return new { success = false, result = "Purchase order not found." };
                     }
                 }
-                purchaseOrderModel.PurchaseOrderDetails.ForEach(async product =>
+                foreach (var product in purchaseOrderModel.PurchaseOrderDetails)
                 {
-                    await SaveProduct(product, purchaseOrderModel.ID == 0 ? tradeID : purchaseOrderModel.TradeID);
-                });
+                    await SaveProduct(product, purchaseOrderModel.ID == 0 ? tradeID : purchaseOrderModel.ID);
+                }
+
 
                 return new { success = true };
             }
