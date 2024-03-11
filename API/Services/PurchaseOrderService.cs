@@ -1,4 +1,5 @@
-﻿using API.Context.Table;
+﻿using API.Context.SP;
+using API.Context.Table;
 using API.Repository.Interfaces;
 using API.Services.Interfaces;
 using MitraKaryaSystem.Models;
@@ -14,6 +15,11 @@ namespace API.Services
             _repository = repository;
         }
 
+        public async Task<object> DeleteProductById(int id)
+        {
+            return await _repository.DeleteProductById(id);
+        }
+
         public async Task<PurchaseOrderModel> FillForm(int id)
         {
             return await _repository.FillForm(id);
@@ -24,7 +30,7 @@ namespace API.Services
             return await _repository.FillFormDetail(id);
         }
 
-        public async Task<List<PurchaseOrderDetailModel>> GetDetailListById(int id)
+        public async Task<List<uspGetDetailListByIdResult>> GetDetailListById(int id)
         {
             return await _repository.GetDetailListById(id);
         }
@@ -34,7 +40,7 @@ namespace API.Services
             return await _repository.GetPurchaseOrderBySearch();
         }
 
-        public async Task<List<Trade>> GetTradeList()
+        public async Task<object> GetTradeList()
         {
             return await _repository.GetTradeList();
         }

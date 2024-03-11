@@ -58,5 +58,17 @@ namespace MitraKaryaSystem.Controllers
                 return Json(new { success = false, error = e.Message });
             }
         }
+        public async Task<JsonResult> GetDetailListById(int id)
+        {
+            return Json(await _purchaseOrderService.GetDetailListById(id));
+        }
+        public async Task<object> GetTradeList()
+        {
+            return Json(await _purchaseOrderService.GetTradeList());
+        }
+        public async Task<object> DeleteItem(int id)
+        {
+            return Json(await _purchaseOrderService.DeleteProductById(id));
+        }
     }
 }
