@@ -25,8 +25,6 @@ public partial class MKSTableContext : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
-    public virtual DbSet<PurchaseOrderItem> PurchaseOrderItems { get; set; }
-
     public virtual DbSet<PurchasePayment> PurchasePayments { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -34,6 +32,8 @@ public partial class MKSTableContext : DbContext
     public virtual DbSet<RolePermission> RolePermissions { get; set; }
 
     public virtual DbSet<SalesOrderItem> SalesOrderItems { get; set; }
+
+    public virtual DbSet<StockInItem> StockInItems { get; set; }
 
     public virtual DbSet<Trade> Trades { get; set; }
 
@@ -148,13 +148,6 @@ public partial class MKSTableContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<PurchaseOrderItem>(entity =>
-        {
-            entity.HasKey(e => e.ID).HasName("PK__Purchase__3214EC27A4ADE210");
-
-            entity.ToTable("PurchaseOrderItem");
-        });
-
         modelBuilder.Entity<PurchasePayment>(entity =>
         {
             entity.HasKey(e => e.ID).HasName("PK__Purchase__3214EC2751753BB2");
@@ -201,6 +194,13 @@ public partial class MKSTableContext : DbContext
             entity.HasKey(e => e.ID).HasName("PK__SalesOrd__3214EC27B544403B");
 
             entity.ToTable("SalesOrderItem");
+        });
+
+        modelBuilder.Entity<StockInItem>(entity =>
+        {
+            entity.HasKey(e => e.ID).HasName("PK__Purchase__3214EC27A4ADE210");
+
+            entity.ToTable("StockInItem");
         });
 
         modelBuilder.Entity<Trade>(entity =>

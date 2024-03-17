@@ -103,7 +103,7 @@ namespace API.Context.SP
             return _;
         }
 
-        public virtual async Task<List<uspGenerateNoResult>> uspGenerateNoAsync(string TradeTypePrefix, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<uspGenerateNoResult>> uspGenerateNoAsync(string TradeTypePrefix, DateTime? Date, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -121,9 +121,15 @@ namespace API.Context.SP
                     Value = TradeTypePrefix ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Char,
                 },
+                new SqlParameter
+                {
+                    ParameterName = "Date",
+                    Value = Date ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Date,
+                },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<uspGenerateNoResult>("EXEC @returnValue = [dbo].[uspGenerateNo] @TradeTypePrefix", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<uspGenerateNoResult>("EXEC @returnValue = [dbo].[uspGenerateNo] @TradeTypePrefix, @Date", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

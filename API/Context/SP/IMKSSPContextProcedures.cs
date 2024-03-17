@@ -14,7 +14,7 @@ namespace API.Context.SP
     {
         Task<List<GetProductListResult>> GetProductListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspBarcodeScanResult>> uspBarcodeScanAsync(string Barcode, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<uspGenerateNoResult>> uspGenerateNoAsync(string TradeTypePrefix, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<uspGenerateNoResult>> uspGenerateNoAsync(string TradeTypePrefix, DateTime? Date, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspGetDetailListByIdResult>> uspGetDetailListByIdAsync(int? TradeID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspGetPermissionListResult>> uspGetPermissionListAsync(int? RoleID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<uspGetProductComboListResult>> uspGetProductComboListAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
