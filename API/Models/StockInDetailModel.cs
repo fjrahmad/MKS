@@ -1,6 +1,6 @@
 ﻿namespace MitraKaryaSystem.Models
 {
-    public class PurchaseOrderDetailModel
+    public class StockInDetailModel
     {
         public int ID { get; set; }
         public int? ProductID { get; set; }

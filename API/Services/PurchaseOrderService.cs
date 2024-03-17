@@ -8,51 +8,6 @@ namespace API.Services
 {
     public class PurchaseOrderService : IPurchaseOrderService
     {
-        private readonly IPurchaseOrderRepository _repository;
 
-        public PurchaseOrderService(IPurchaseOrderRepository repository)
-        {
-            _repository = repository;
-        }
-
-        public async Task<object> DeleteProductById(int id)
-        {
-            return await _repository.DeleteProductById(id);
-        }
-
-        public async Task<PurchaseOrderModel> FillForm(int id)
-        {
-            return await _repository.FillForm(id);
-        }
-
-        public async Task<PurchaseOrderDetailModel> FillFormDetail(int id)
-        {
-            return await _repository.FillFormDetail(id);
-        }
-
-        public async Task<List<uspGetDetailListByIdResult>> GetDetailListById(int id)
-        {
-            return await _repository.GetDetailListById(id);
-        }
-
-        public async Task<List<Trade>> GetPurchaseOrderBySearch()
-        {
-            return await _repository.GetPurchaseOrderBySearch();
-        }
-
-        public async Task<object> GetTradeList()
-        {
-            return await _repository.GetTradeList();
-        }
-
-        public async Task<object> Save(PurchaseOrderModel purchaseOrderModel)
-        {
-            return await _repository.Save(purchaseOrderModel);
-        }
-
-        public async Task<object> ScanBarcode(string barcode)
-        {
-            return await _repository.ScanBarcode(barcode);
-        }
     }
 }
