@@ -1,6 +1,6 @@
 ﻿namespace MitraKaryaSystem.Models
 {
-    public class PurchaseOrderModel
+    public class StockInModel
     {
         public int ID { get; set; }
 
@@ -8,6 +8,6 @@
 
         public short? StatusID { get; set; }
         public string No { get; set; }
-        public List<PurchaseOrderDetailModel> PurchaseOrderDetails { get; set; }
+        public List<StockInDetailModel> StockInDetails { get; set; }
     }
 }

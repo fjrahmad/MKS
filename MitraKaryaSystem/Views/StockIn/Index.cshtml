@@ -1,11 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Purchase Order";
+    ViewData["Title"] = "Stock In";
 
 }
 <div class="card">
     <div class="card-header" style="background-color:#f0f0f0">
         <div class="card-title">
-            <h5>Purchase Order</h5>
+            <h5>Stock In</h5>
         </div>
         <div class="card-tools">
             <button type="button" id="buttonNew" class="btn btn-primary btn-sm"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
@@ -14,21 +14,26 @@
     </div>
     <div class="card-body">
         <div class="card">
-            <div class="card-body" id="purchaseOrderHeaderBody">
-                <partial name="_FormHeader" model="new PurchaseOrderModel()" />
+            <div class="card-body" id="stockInHeaderBody">
+                <partial name="_FormHeader" model="new StockInModel()" />
             </div>
         </div>
         <div class="card">
 
-            <div class="card-body" id="purchaseOrderDetailBody">
+            <div class="card-body" id="stockInDetailBody">
                 <div class="row mb-3">
                     <label for="barcode" class="form-label col-sm-2">Barcode</label>
-                    <div class="col-10">
+                    <div class="col-md-10 col-lg-10">
                         <input type="text" class="form-control" placeholder="Scan barcode" id="barcode" autofocus />
                         <div class="invalid-feedback">
                             Please provide a barcode.
                         </div>
                     </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-2"></div> <!-- Empty column for spacing -->
+                    <label class="form-label col-sm-8 text-center">OR</label> <!-- Centered "OR" text -->
+                    <div class="col-sm-2"></div> <!-- Empty column for spacing -->
                 </div>
                 <div class="row mb-3">
                     <label for="selectProduct" class="form-label col-sm-2">Product<span class="asterisk">*</span></label>
@@ -40,11 +45,13 @@
                         </div>
                     </div>
                 </div>
-                <partial name="_FormDetail" model="new PurchaseOrderDetailModel()" />
+                <partial name="_FormDetail" model="new StockInDetailModel()" />
             </div>
+
+
             <div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-success" id="buttonAdd">Add Product</button>
+                    <button type="button" class="btn btn-success btn-sm" id="buttonAdd">Add / Edit Product</button>
                 </div>
             </div>
         </div>
@@ -52,13 +59,13 @@
     </div>
     <div class="card-footer">
         <button type="submit" class="btn btn-primary" id="buttonSave">Save</button>
-        <button type="button" class="btn btn-secondary" id="buttonCancel">Cancel</button>
+        <a class="btn btn-secondary" asp-action="Index" asp-controller="Home" id="buttonCancel">Cancel</a>
     </div>
     <partial name="_TableSearch" />
 
 </div>
 
 @section Scripts {
-    <script src="~/js/PurchaseOrder.js" asp-append-version="true"></script>
+    <script src="~/js/StockIn.js" asp-append-version="true"></script>
     <script src="~/js/Common.js" asp-append-version="true"></script>
 }

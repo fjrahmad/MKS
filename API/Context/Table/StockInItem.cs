@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace API.Context.Table;
 
-public partial class PurchaseOrderItem
+public partial class StockInItem
 {
     public int ID { get; set; }
 
