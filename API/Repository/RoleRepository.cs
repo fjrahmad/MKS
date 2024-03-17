@@ -1,7 +1,6 @@
-﻿using API.Context.Table;
-using API.Models;
+﻿using API.Context.SP;
+using API.Context.Table;
 using API.Repository.Interfaces;
-using API.Context.SP;
 using Microsoft.EntityFrameworkCore;
 using MitraKaryaSystem.Models;
 

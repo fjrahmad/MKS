@@ -1,6 +1,4 @@
-﻿using API.Context.Table;
-using API.Models;
-using MitraKaryaSystem.Models;
+﻿using MitraKaryaSystem.Models;
 
 namespace API.Repository.Interfaces
 {

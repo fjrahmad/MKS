@@ -2,7 +2,6 @@
 using API.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using MitraKaryaSystem.Models;
-using System.Net;
 
 namespace API.Repository
 {

@@ -1,5 +1,4 @@
-﻿using API.Models;
-using API.Repository.Interfaces;
+﻿using API.Repository.Interfaces;
 using API.Services.Interfaces;
 
 namespace API.Services

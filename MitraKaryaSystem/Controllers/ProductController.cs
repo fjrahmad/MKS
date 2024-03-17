@@ -1,10 +1,7 @@
-﻿using API.Models;
-using API.Services.Interfaces;
+﻿using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MitraKaryaSystem.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace MitraKaryaSystem.Controllers
 {
     [Authorize]

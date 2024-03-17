@@ -1,5 +1,4 @@
 ﻿using API.Context.Table;
-using API.Models;
 using API.Repository.Interfaces;
 using API.Services.Interfaces;
 using MitraKaryaSystem.Models;

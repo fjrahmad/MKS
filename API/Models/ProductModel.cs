@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MitraKaryaSystem.Models
+﻿namespace MitraKaryaSystem.Models
 {
     public class ProductModel
     {

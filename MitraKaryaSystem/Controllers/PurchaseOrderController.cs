@@ -1,8 +1,4 @@
-﻿using API.Context.Table;
-using API.Services;
-using API.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using MitraKaryaSystem.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace MitraKaryaSystem.Controllers
 {

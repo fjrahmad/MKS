@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MitraKaryaSystem.Models;
-using System.Security.Claims;
 
 namespace MitraKaryaSystem.Controllers
 {

@@ -1,5 +1,4 @@
 ﻿using MitraKaryaSystem.Models;
-using System.Threading.Tasks;
 
 namespace API.Repository.Interfaces
 {
