@@ -14,9 +14,9 @@ namespace API.Services
             _context = context;
             _roleRepository = roleRepository;
         }
-        public async Task DeleteRole(int id)
+        public async Task<object> DeleteRole(int id)
         {
-            await _roleRepository.DeleteRole(id);
+            return await _roleRepository.DeleteRole(id);
         }
 
         public async Task<RoleViewModel> FillFormRole(int id)
@@ -29,9 +29,9 @@ namespace API.Services
             return await _roleRepository.GetRoleList();
         }
 
-        public async Task SaveRole(RoleViewModel role)
+        public async Task<object> SaveRole(RoleViewModel role)
         {
-            await _roleRepository.SaveRole(role);
+            return await _roleRepository.SaveRole(role);
         }
     }
 }

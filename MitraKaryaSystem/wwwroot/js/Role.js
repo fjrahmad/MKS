@@ -75,19 +75,11 @@ let Table = {
                             "Content-Type": "application/json"
                         }
                     })
-                        .then(() => {
-                            // Show success message
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Success',
-                                text: 'Role has been deleted',
-                                showConfirmButton: false,
-                                timer: 1500,
-                                allowOutsideClick: false
-                            }).then(() => {
+                        .then(response => {
+                            toastr.options.onShown = function () {
                                 Table.FillGridRole();
-                            });
+                            }
+                            response.ok ? toastr.success('Data has been deleted') : toastr.error('Data not deleted');
                         })
                         .catch(error => {
                             Swal.showValidationMessage(`Request failed: ${error}`);
@@ -132,44 +124,29 @@ var Form = {
             },
             Permissions: permissions
         };
-        Swal.fire({
-            position: 'center',
-            icon: 'info',
-            title: 'Please wait',
-            text: 'Saving..',
-            showConfirmButton: false,
-            allowOutsideClick: false,
-
-        });
-        Swal.showLoading();
+        // Show loading indicator
+        $('#buttonSave').prop('disabled', true); // Disable the button
+        $('#buttonSave .spinner-border').show(); // Show the spinner
         $.ajax({
             url: 'SaveRole',
             type: 'POST',
             contentType: 'application/json', // Set content type to JSON
             data: JSON.stringify(requestData),
             success: function (result) {
-                if (result.success) {
-                    Swal.hideLoading()
-                    // Close the modal
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: "Save Success",
-                        showConfirmButton: false,
-                        timer: 1500,
-                        allowOutsideClick: false
-                    }).then(() => {
-                        Table.FillGridRole();
-                        $('#roleModal').modal('hide');
-                    });
-                } else {
-                    console.error('Saving failed:', result);
-                    // Close loading indicator
+                toastr.options.onShown = function () {
+                    Table.FillGridRole();
+                    $('#roleModal').modal('hide');
                 }
+                result.success ? toastr.success('Data saved') : toastr.error('Data not saved');
+                // Close loading indicator
+                $('#buttonSave').prop('disabled', false); // Enable the button
+                $('#buttonSave .spinner-border').hide(); // Hide the spinner
             },
             error: function (error) {
-                // Show error message
-                console.error('Saving failed:', error);
+                toastr.error(error, 'Data not saved');
+                // Close loading indicator
+                $('#buttonSave').prop('disabled', false); // Enable the button
+                $('#buttonSave .spinner-border').hide(); // Hide the spinner
             }
         });
     },
@@ -181,15 +158,12 @@ var Form = {
             data: { id: id },
             success: function (result) {
                 $('#bodyModal').html(result);
-                // Open the modal
                 $('#roleModal').modal('show');
                 Table.FillGridPermission();
             },
             error: function (error) {
-                // Handle errors if needed
-                console.error('Error loading role data:', error);
+                toastr.error(error, 'Error load data');
             }
         });
     }
-
 }

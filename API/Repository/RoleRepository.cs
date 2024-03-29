@@ -12,11 +12,19 @@ namespace API.Repository
         private readonly MKSSPContextProcedures _procedure;
         public RoleRepository(MKSTableContext context, MKSSPContextProcedures procedure) { _context = context; _procedure = procedure; }
 
-        public async Task DeleteRole(int id)
+        public async Task<object> DeleteRole(int id)
         {
-            _context.Roles.Remove(await _context.Roles.FindAsync(id));
-            await DeleteRolePermission(id);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Roles.Remove(await _context.Roles.FindAsync(id));
+                await DeleteRolePermission(id);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                await Task.FromResult<object>(new { success = false, result = e.Message });
+            }
+            return new { success = true };
         }
 
         private async Task DeleteRolePermission(int id)
@@ -39,7 +47,7 @@ namespace API.Repository
             return await _context.Roles.ToListAsync();
         }
 
-        public async Task SaveRole(RoleViewModel role)
+        public async Task<object> SaveRole(RoleViewModel role)
         {
             try
             {
@@ -68,14 +76,15 @@ namespace API.Repository
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                // Handle exceptions appropriately
-                Console.WriteLine(ex.Message);
+                await Task.FromResult<object>(new { success = false, result = e.Message });
             }
+            return new { success = true };
+
         }
 
-        private async Task SaveRolePermission(PermissionModel permission, int roleID)
+        private async Task<object> SaveRolePermission(PermissionModel permission, int roleID)
         {
             try
             {
@@ -93,11 +102,11 @@ namespace API.Repository
                     await _context.SaveChangesAsync();
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                // Handle exceptions appropriately
-                Console.WriteLine(ex.Message);
+                await Task.FromResult<object>(new { success = false, result = e.Message });
             }
+            return new { success = true };
         }
 
 
