@@ -74,13 +74,11 @@ namespace MitraKaryaSystem.Controllers
         }
         public async Task<IActionResult> FillFormCategory(int id)
         {
-            var data = await _categoryService.FillFormCategory(id);
-            return PartialView("_TableCategory", data);
+            return PartialView("_TableCategory", await _categoryService.FillFormCategory(id));
         }
         public async Task<IActionResult> FillFormUnit(int id)
         {
-            var data = await _unitService.FillFormUnit(id);
-            return PartialView("_TableUnit", data);
+            return PartialView("_TableUnit", await _unitService.FillFormUnit(id));
         }
 
         public async Task<JsonResult> GetProductComboList()
