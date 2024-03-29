@@ -72,18 +72,10 @@ let Table = {
                     })
                         .then(response => {
                             if (response.ok) {
-                                // Show success message
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: 'Success',
-                                    text: 'User has been deleted',
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    allowOutsideClick: false
-                                }).then(() => {
+                                toastr.options.onShown = function () {
                                     Table.FillGrid();
-                                });
+                                }
+                                response.ok ? toastr.success('Data has been deleted') : toastr.error('Data not deleted');
                             }
                         })
                         .catch(error => {
@@ -165,19 +157,11 @@ let Table = {
                             }
                         })
                             .then(() => {
-                                // Show success message
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: 'Success',
-                                    text: "User Role Assigned Successfully",
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    allowOutsideClick: false
-                                });
-                            }).then(() => {
-                                Table.FillGrid();
-                                Table.FillGridRequested();
+                                toastr.options.onShown = function () {
+                                    Table.FillGrid();
+                                    Table.FillGridRequested();
+                                }
+                                response.ok ? toastr.success('User has been assigned') : toastr.error('User assign failed');
                             })
                             .catch(error => {
                                 Swal.showValidationMessage(`Request failed: ${error}`);
@@ -208,20 +192,12 @@ let Table = {
                                 "Content-Type": "application/json"
                             }
                         })
-                            .then(() => {
-                                // Show success message
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: 'Success',
-                                    text: "User Rejected Successfully",
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    allowOutsideClick: false
-                                });
-                            }).then(() => {
-                                Table.FillGrid();
-                                Table.FillGridRequested();
+                            .then(response => {
+                                toastr.options.onShown = function () {
+                                    Table.FillGrid();
+                                    Table.FillGridRequested();
+                                }
+                                response.ok ? toastr.success('User has been rejected') : toastr.error('User rejected failed');
                             })
                             .catch(error => {
                                 Swal.showValidationMessage(`Request failed: ${error}`);
@@ -272,20 +248,15 @@ let Forms = {
                     Table.FillGrid();
                     $('#userModal').modal('hide');
                 }
-                result.result.success ? toastr.success('Data saved') : toastr.error(result.result.error, 'Data not saved');
-
+                result.result.success ? toastr.success('Data saved') : toastr.error('Data not saved');
                 // Close loading indicator
                 $('#buttonSave').prop('disabled', false); // Enable the button
                 $('#buttonSave .spinner-border').hide(); // Hide the spinner
             },
             error: function (error) {
-                // Show error message
-                console.error('Saving failed:', error);
-
-                // Close loading indicator
-                Swal.close();
-
-                // You can handle errors as needed
+                toastr.error(error, 'Data not saved') // Close loading indicator
+                $('#buttonSave').prop('disabled', false); // Enable the button
+                $('#buttonSave .spinner-border').hide(); // Hide the spinner
             }
         });
     },
@@ -296,18 +267,11 @@ let Forms = {
             type: 'POST',
             data: { id: id },
             success: function (result) {
-
                 $('#bodyModal').html(result);
-
-
-                // Update the modal body with the retrieved partial view
-
-                // Open the modal
                 $('#userModal').modal('show');
             },
             error: function (error) {
-                // Handle errors if needed
-                console.error('Error loading user data:', error);
+                toastr.error(error, 'Error loading  data') // Close loading indicator
             }
         });
     }

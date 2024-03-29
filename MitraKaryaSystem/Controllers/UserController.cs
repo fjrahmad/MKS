@@ -22,8 +22,7 @@ namespace MitraKaryaSystem.Controllers
         [Route("GetUserList")]
         public async Task<JsonResult> GetUserList()
         {
-            var data = await _userService.GetUserList();
-            return Json(data);
+            return Json(await _userService.GetUserList());
         }
         [Route("SaveUser")]
         [HttpPost]
@@ -36,16 +35,14 @@ namespace MitraKaryaSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> FillForm(int id)
         {
-            var data = await _userService.FillForm(id);
-            return PartialView("_UserModal", data);
+            return PartialView("_UserModal", await _userService.FillForm(id));
         }
 
         [Route("DeleteUser")]
         [HttpPost]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<JsonResult> DeleteUser(int id)
         {
-            await _userService.DeleteUser(id);
-            return Json(new { success = true });
+            return Json(await _userService.DeleteUser(id));
         }
     }
 }
