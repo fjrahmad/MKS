@@ -60,7 +60,6 @@ namespace API.Repository
         {
             try
             {
-
                 var trade = await _context.Trades.FindAsync(id);
                 var stockInItems = await _context.StockInItems.Where(x => x.TradeID == id).ToListAsync();
                 if (trade == null)
@@ -158,8 +157,6 @@ namespace API.Repository
                 {
                     await SaveProduct(product, stockInModel.ID == 0 ? tradeID : stockInModel.ID);
                 }
-
-
                 return new { success = true };
             }
             catch (Exception e)

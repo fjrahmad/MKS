@@ -143,7 +143,7 @@ let Table = {
                                 toastr.options.onShown = function () {
                                     Table.FillGridProduct(id);
                                 }
-                                response.ok ? toastr.success('Data has been deleted') : toastr.error(result.result.error, 'Data not deleted');
+                                response.ok ? toastr.success('Data has been deleted') : toastr.error('Data not deleted');
                             })
                             .catch(error => {
                                 Swal.showValidationMessage(`Request failed: ${error}`);
@@ -216,7 +216,7 @@ let Table = {
                                 Form.ResetProductForm();
                                 Form.Reset();
                             }
-                            response.ok ? toastr.success('Data has been deleted') : toastr.error(result.result.error, 'Data not deleted');
+                            response.ok ? toastr.success('Data has been deleted') : toastr.error('Data not deleted');
                         })
                         .catch(error => {
                             Swal.showValidationMessage(`Request failed: ${error}`);
@@ -281,8 +281,7 @@ let Control = {
                     Control.AddRow(result.id, result.name, isScan ? 1 : quantity, result.unitPrice, result.barcode, result.supplierID, result.supplierName);
                 },
                 error: function (error) {
-                    // Handle errors if needed
-                    console.error('Error loading user data:', error);
+                    toastr.error(error, 'Error scan barcode');
                 }
             });
         }
@@ -331,8 +330,7 @@ let Form = {
                 $('#stockInDetailForm').html(result);
             },
             error: function (error) {
-                // Handle errors if needed
-                console.error('Error loading user data:', error);
+                toastr.error(error, 'Error loading user data');
             }
         });
     },
@@ -383,13 +381,16 @@ let Form = {
                     Form.ResetProductForm();
                     Form.Reset();
                 }
-                result.success ? toastr.success('Data saved') : toastr.error(result.result.error, 'Data not saved');
+                result.success ? toastr.success('Data saved') : toastr.error('Data not saved');
                 // Close loading indicator
                 $('#buttonSave').prop('disabled', false); // Enable the button
                 $('#buttonSave .spinner-border').hide(); // Hide the spinner
             },
             error: function (error) {
                 toastr.error(error, 'Data not saved');
+                // Close loading indicator
+                $('#buttonSave').prop('disabled', false); // Enable the button
+                $('#buttonSave .spinner-border').hide(); // Hide the spinner
             }
         });
     },
@@ -403,8 +404,7 @@ let Form = {
                 Table.FillGridProduct(id, isReset);
             },
             error: function (error) {
-                // Handle errors if needed
-                console.error('Error loading user data:', error);
+                toastr.error(error, 'Error load data');
             }
         });
     }
