@@ -19,8 +19,7 @@ namespace MitraKaryaSystem.Controllers
         }
         public async Task<JsonResult> GetList()
         {
-            var data = await _customerService.GetList();
-            return Json(data);
+            return Json(await _customerService.GetList());
         }
         [HttpPost]
         public async Task<IActionResult> Save(CustomerModel customer)
@@ -31,15 +30,13 @@ namespace MitraKaryaSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> FillForm(int id)
         {
-            var data = await _customerService.FillForm(id);
-            return PartialView("_CustomerModal", data);
+            return PartialView("_CustomerModal", await _customerService.FillForm(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<JsonResult> Delete(int id)
         {
-            await _customerService.Delete(id);
-            return Json(new { success = true });
+            return Json(await _customerService.Delete(id));
         }
     }
 }

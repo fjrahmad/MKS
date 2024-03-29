@@ -39,7 +39,6 @@ let Table = {
             "responsive": true,
             "data": data,
             "columns": columns,
-            "buttons": [],
             "dom": 'lBfrtip',
             "columnDefs": [{ "targets": [0, 1, 2, 3, 4], "className": "text-left" }],
         });
@@ -73,7 +72,7 @@ let Table = {
                                 $('#customerModal').modal('hide');
                                 Table.FillGrid();
                             }
-                            response.ok ? toastr.success('Data has been deleted') : toastr.error(result.result.error, 'Data not deleted');
+                            response.ok ? toastr.success('Data has been deleted') : toastr.error('Data not deleted');
                         })
                         .catch(error => {
                             Swal.showValidationMessage(`Request failed: ${error}`);
@@ -127,7 +126,7 @@ let Forms = {
                     Table.FillGrid();
                 }
 
-                result.result.success ? toastr.success('Data saved') : toastr.error(result.result.error, 'Data not saved');
+                result.result.success ? toastr.success('Data saved') : toastr.error('Data not saved');
                 // Close loading indicator
                 $('#buttonSave').prop('disabled', false); // Enable the button
                 $('#buttonClose').prop('disabled', false); // Disable the button
@@ -135,7 +134,7 @@ let Forms = {
                 $('#buttonSave .spinner-border').hide(); // Hide the spinner
             },
             error: function (error) {
-                toastr.error(result.result.error, 'Data not saved');
+                toastr.error(error, 'Data not saved');
                 // Close loading indicator
                 $('#buttonSave').prop('disabled', false); // Enable the button
                 $('#buttonClose').prop('disabled', false); // Disable the button
@@ -156,8 +155,7 @@ let Forms = {
                 $('#customerModal').modal('show');
             },
             error: function (error) {
-                // Handle errors if needed
-                console.error('Error loading user data:', error);
+                toastr.error(error, 'Error load data');
             }
         });
     }
@@ -167,7 +165,6 @@ let Forms = {
 let Control = {
     Init: function () {
         $(document).on('change', '#isSupplier', function () {
-            console.log('Supplier checkbox state changed');
             Control.Visibility();
         });
     },
